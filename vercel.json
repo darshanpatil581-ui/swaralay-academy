@@ -1,5 +1,9 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/admin", "destination": "/#admin", "permanent": false },
+    { "source": "/admin.html", "destination": "/#admin", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/(.*)",
