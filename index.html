@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v9 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v10 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -112,6 +112,8 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .pframe .tl{top:2px;left:2px}.pframe .tr{top:2px;right:2px;transform:scaleX(-1)}.pframe .bl{bottom:2px;left:2px;transform:scaleY(-1)}.pframe .br{bottom:2px;right:2px;transform:scale(-1,-1)}
 @media(max-width:860px){.pframe{max-width:360px}}
 html body,html body *{font-weight:700!important}
+.gal img{border:6px solid #fff8e8;border-radius:10px;background:#fff8e8;box-shadow:0 0 0 2px #a31621,0 12px 22px -10px #a3162177;margin-bottom:20px}
+.gal img:hover{box-shadow:0 0 0 2px #e8a317,0 16px 28px -10px #a3162199}
 </style></head><body>
 <div id="pub">
 <nav><a class="logo" href="#home" aria-label="Swaralay Music Academy home"><img class="header-logo" src="logo.jpeg" alt="Swaralay Music Academy logo"></a><button id="burger" aria-label="Menu">Menu</button>
@@ -166,11 +168,20 @@ function home(){return `<section class="hero" id="home"><div><h3 style="color:va
 <section id="news"><h2>Announcements</h2><div class="grid" id="nw"><p class="sub">Loading...</p></div></section>
 <section id="contact"><h2>Contact</h2><div class="card nt" id="ct"></div></section>`}
 
+// Photos uploaded to the website folder. category '' means: show only under "All".
+const STATIC_GAL=[
+ {category:'Performances',src:'perfomance.jpeg'},
+ {category:'Performances',src:'performance1.jpeg'},
+ {category:'',src:'sir.jpeg'},
+ {category:'',src:'sir1.jpeg'},
+ {category:'',src:'sir2.jpeg'},
+ {category:'',src:'sir3.jpeg'}];
+const gsrc=x=>x.src||pubUrl(x.image_path);
 let GL=[],gc='All';
-async function loadGallery(){const el=$('#gal');if(!el)return;try{GL=await Q(sb.from('gallery').select('*').order('created_at',{ascending:false}))}catch(e){el.innerHTML='<p class="sub">Could not load photos.</p>';return}drawG()}
-function drawG(){if(!$('#gal'))return;$('#chips').innerHTML=['All',...gcat].map(x=>`<button class="chip ${x==gc?'on':''}">${x}</button>`).join('');const L=GL.filter(x=>gc=='All'||x.category==gc);$('#gal').innerHTML=L.length?L.map(x=>`<img src="${esc(pubUrl(x.image_path))}" alt="${esc(x.category)}" loading="lazy">`).join(''):'<p class="sub">No photos here yet.</p>';
+async function loadGallery(){const el=$('#gal');if(!el)return;let db=[];try{db=await Q(sb.from('gallery').select('*').order('created_at',{ascending:false}))}catch(e){}GL=[...STATIC_GAL,...db];drawG()}
+function drawG(){if(!$('#gal'))return;$('#chips').innerHTML=['All',...gcat].map(x=>`<button class="chip ${x==gc?'on':''}">${x}</button>`).join('');const L=GL.filter(x=>gc=='All'||x.category==gc);$('#gal').innerHTML=L.length?L.map(x=>`<img src="${esc(gsrc(x))}" alt="${esc(x.category||'Swaralay Music Academy')}" loading="lazy" onerror="this.style.display='none'">`).join(''):'<p class="sub">No photos here yet.</p>';
  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{gc=b.textContent;drawG()});
- document.querySelectorAll('.gal img').forEach((g,i)=>g.onclick=()=>{$('#lb').innerHTML=`<figure style="margin:0;text-align:center"><img src="${esc(pubUrl(L[i].image_path))}" alt="${esc(L[i].category)}" style="max-width:92vw;max-height:80vh;border-radius:14px"><figcaption style="margin-top:10px">${esc(L[i].category)}</figcaption></figure>`;$('#lb').classList.add('on')})}
+ document.querySelectorAll('.gal img').forEach((g,i)=>g.onclick=()=>{$('#lb').innerHTML=`<figure style="margin:0;text-align:center"><img src="${esc(gsrc(L[i]))}" alt="${esc(L[i].category||'Swaralay Music Academy')}" style="max-width:92vw;max-height:80vh;border-radius:14px"><figcaption style="margin-top:10px">${esc(L[i].category)}</figcaption></figure>`;$('#lb').classList.add('on')})}
 async function loadNews(){const el=$('#nw');if(!el)return;try{const d=await Q(sb.from('announcements').select('*').order('posted_on',{ascending:false}).limit(30));el.innerHTML=d.length?d.map(n=>`<div class="card"><small style="color:var(--gd)">${dt(n.posted_on)}</small><h3>${esc(n.title)}</h3><p>${esc(n.body)}</p>${n.image_path?`<img src="${esc(pubUrl(n.image_path))}" alt="" style="width:100%;border-radius:14px">`:''}</div>`).join(''):'<p class="sub">No announcements right now.</p>'}catch(e){el.innerHTML='<p class="sub">Could not load announcements.</p>'}}
 function fillContact(){const el=$('#ct');if(!el)return;const c=CFG,num=v=>{const d=String(v||'').replace(/\D/g,'');return d.length==10?'91'+d:d},tel=num(c.phone),wa=num(c.whatsapp);
  el.innerHTML=`<h3>${esc(c.academy_name||'Swaralay Music Academy')}</h3><p>${esc(c.address||'Nashik')}</p>${c.phone?`<p>Phone: ${esc(c.phone)}</p>`:''}${c.email?`<p>Email: ${esc(c.email)}</p>`:''}<div class="row">${tel?`<a class="btn" href="tel:+${tel}">Call Now</a>`:''}${wa?`<a class="btn g" href="https://wa.me/${wa}">WhatsApp</a>`:''}<a class="btn g" href="${esc(c.maps_url||'https://www.google.com/maps/search/?api=1&query=Nashik')}" target="_blank" rel="noopener">Get Directions</a></div>${(tel||wa)?'':'<p class="sub"><small>Phone and WhatsApp details will appear here once the academy adds them.</small></p>'}`}
