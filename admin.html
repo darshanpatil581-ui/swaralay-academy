@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="light">
+  <title>Admin Login | Swaralay Music Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--red:#a31621;--red2:#d64045;--bg:#f3e8d2;--card:#fffaf5;--ink:#2b2224;--mut:#66595a;--line:#ecc5be;--gold:#e8a317;--shadow:0 20px 55px #6e0d161c}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(800px 500px at 0 0,#d6404522,transparent 65%),radial-gradient(700px 500px at 100% 100%,#e8a31722,transparent 60%),var(--bg);font:16px/1.55 Hind,system-ui,sans-serif;color:var(--ink);display:grid;place-items:center;padding:24px}
+    .wrap{width:min(100%,980px);display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:var(--shadow)}
+    .brand{background:linear-gradient(145deg,var(--red2),var(--red) 70%,#4a0810);color:white;padding:44px 36px;display:flex;flex-direction:column;justify-content:space-between;min-height:530px}.mark{height:54px;width:54px;border:2px dashed #ffffffaa;border-radius:16px;display:grid;place-items:center;font-size:30px}.brand h1{font:700 clamp(2rem,4vw,3rem)/1.12 'Tiro Devanagari Marathi',Georgia,serif;margin:28px 0 14px}.brand p{color:#fffde0e8}.badge{display:inline-block;border:1px solid #ffffff66;border-radius:99px;padding:6px 12px;font-size:.85rem;width:max-content}.form-area{padding:44px 36px;display:flex;flex-direction:column;justify-content:center}.form-area h2{font:700 1.9rem 'Tiro Devanagari Marathi',Georgia,serif;margin:0 0 6px;color:var(--red)}.muted{color:var(--mut);margin-top:0}.notice{padding:12px 14px;border-radius:12px;background:#fff2d6;color:#704d00;font-size:.9rem;margin:16px 0}.notice.error{background:#fde8e7;color:#8a1717}.notice.success{background:#e5f5e9;color:#14532d}label{display:block;font-weight:600;margin:16px 0 6px}input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}input:focus{outline:3px solid #e8a31755;border-color:var(--gold)}button,.button{border:0;border-radius:12px;padding:13px 16px;background:linear-gradient(160deg,var(--red2),var(--red));color:#fff;font:600 1rem Hind,system-ui,sans-serif;cursor:pointer;text-decoration:none;display:inline-block;text-align:center;box-shadow:0 4px 0 #6e0d16}button:disabled{opacity:.65;cursor:wait}form button{width:100%;margin-top:22px}.back{display:inline-block;margin-top:22px;color:var(--red);font-weight:600;text-decoration:none}.hidden{display:none!important}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.top h2{margin:0}.logout{background:#fff;color:var(--red);border:1px solid var(--line);box-shadow:none;padding:9px 14px}.panel{grid-column:1/-1;padding:32px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.stat{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff}.stat small{color:var(--mut)}.stat strong{display:block;color:var(--red);font-size:1.7rem;margin-top:5px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tabs button{width:auto;margin:0;background:#fff;color:var(--red);border:1px solid var(--line);box-shadow:none;padding:9px 13px}.tabs button.active{background:var(--red);color:#fff}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #f0dcd7;white-space:nowrap}th{background:#fff4ec;color:var(--red)}.small{font-size:.9rem;color:var(--mut)}@media(max-width:720px){.wrap{grid-template-columns:1fr}.brand{min-height:auto;padding:28px}.brand h1{margin:18px 0 8px}.form-area{padding:30px 24px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:22px 16px}}@media(max-width:400px){.stats{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="brand" id="brand">
+      <div><div class="mark" aria-hidden="true">♪</div><h1>Swaralay<br>Music Academy</h1><p>Dedicated space for academy administration.</p></div>
+      <div><span class="badge">🔒 Admin access only</span><p class="small" style="color:#ffffffc9;margin-bottom:0">Students should use the Student Portal on the public website.</p></div>
+    </aside>
+    <main class="form-area" id="loginView">
+      <h2>Admin Login</h2><p class="muted">Sign in with the authorised academy administrator account.</p>
+      <div id="setupNotice" class="notice hidden"></div><div id="message" class="notice hidden" role="alert" aria-live="polite"></div>
+      <form id="loginForm" autocomplete="on">
+        <label for="email">Administrator email</label><input id="email" type="email" autocomplete="username" required maxlength="254" placeholder="admin@example.com">
+        <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="Enter your password">
+        <button id="loginButton" type="submit">Sign in securely</button>
+      </form>
+      <a class="back" href="index.html">← Back to public website</a>
+      <p class="small">Access is granted only when the signed-in account has the <b>admin</b> role in Supabase.</p>
+    </main>
+    <section class="panel hidden" id="dashboardView">
+      <div class="panel-head"><div><h2 style="font-family:'Tiro Devanagari Marathi',serif;color:var(--red);margin:0">Admin Dashboard</h2><div class="small" id="signedInAs"></div></div><button class="logout" id="logoutButton">Log out</button></div>
+      <div class="notice success">Authenticated administrator session. Data access is also restricted by Supabase Row Level Security.</div>
+      <div class="stats"><div class="stat"><small>Active students</small><strong id="activeCount">—</strong></div><div class="stat"><small>Pending registrations</small><strong id="pendingCount">—</strong></div><div class="stat"><small>Pending payments</small><strong id="paymentCount">—</strong></div><div class="stat"><small>Bookings</small><strong id="bookingCount">—</strong></div></div>
+      <div class="tabs" id="tabs"><button class="active" data-table="students">Students</button><button data-table="payments">Payments</button><button data-table="batches">Batches</button><button data-table="attendance">Attendance</button><button data-table="bookings">Bookings</button><button data-table="announcements">Announcements</button><button data-table="gallery">Gallery</button><button data-table="settings">Settings</button></div>
+      <div id="tableMessage" class="notice hidden" role="status"></div><div id="tableArea" class="table-wrap"></div>
+      <p class="small">This dashboard reads real Supabase records. It does not pretend that sample/demo data is real. Editing and payment verification should be enabled only through authenticated, RLS-protected database operations.</p>
+    </section>
+  </div>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // Supabase project URL and PUBLIC anon/publishable key go here. Never put a service_role key in browser code.
+    const SUPABASE_URL = 'YOUR_SUPABASE_PROJECT_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(SUPABASE_URL) && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY' && SUPABASE_ANON_KEY.length > 20;
+    const $ = (s) => document.querySelector(s);
+    const loginView = $('#loginView'), dashboardView = $('#dashboardView');
+    let supabase = null;
+    if (!configured) {
+      $('#setupNotice').textContent = 'Setup required: add your Supabase Project URL and anon/publishable key in admin.html. Login remains disabled until configured.';
+      $('#setupNotice').classList.remove('hidden'); $('#loginButton').disabled = true;
+    } else {
+      supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) await authorize(session);
+    }
+    function showMessage(text, type='error') { const el=$('#message'); el.textContent=text; el.className='notice '+type; }
+    async function authorize(session) {
+      if (!session?.user) return showLogin();
+      const { data: profile, error } = await supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+      if (error || profile?.role !== 'admin') {
+        await supabase.auth.signOut(); showLogin(); showMessage('Access denied. This account is not authorised as an academy administrator.'); return;
+      }
+      loginView.classList.add('hidden'); $('#brand').classList.add('hidden'); dashboardView.classList.remove('hidden'); $('#signedInAs').textContent='Signed in as '+session.user.email;
+      await loadStats(); await loadTable('students');
+    }
+    function showLogin() { dashboardView.classList.add('hidden'); $('#brand').classList.remove('hidden'); loginView.classList.remove('hidden'); }
+    $('#loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); if (!supabase) return;
+      const btn=$('#loginButton'); btn.disabled=true; btn.textContent='Verifying…'; $('#message').classList.add('hidden');
+      try { const {data,error}=await supabase.auth.signInWithPassword({email:$('#email').value.trim(),password:$('#password').value}); if(error) throw error; await authorize(data.session); }
+      catch(err) { showMessage('Sign-in failed. Check the email/password or account configuration and try again.'); }
+      finally { btn.disabled=false; btn.textContent='Sign in securely'; }
+    });
+    $('#logoutButton').addEventListener('click', async()=>{ if(supabase) await supabase.auth.signOut(); showLogin(); $('#password').value=''; });
+    supabase?.auth.onAuthStateChange((event, session)=>{ if(event==='SIGNED_OUT') showLogin(); });
+    async function count(table, filters=[]) { let q=supabase.from(table).select('id',{count:'exact',head:true}); for(const [col,val] of filters) q=q.eq(col,val); const {count,error}=await q; if(error) throw error; return count??0; }
+    async function loadStats(){ try { $('#activeCount').textContent=await count('students',[['status','active']]); $('#pendingCount').textContent=await count('students',[['status','pending']]); $('#paymentCount').textContent=await count('payments',[['status','pending']]); $('#bookingCount').textContent=await count('bookings',[['status','booked']]); } catch(e) { $('#tableMessage').textContent='Could not load one or more counts. Check the Supabase schema and RLS policies.'; $('#tableMessage').classList.remove('hidden'); } }
+    const columns={students:['id','full_name','whatsapp','track','class_format','monthly_fee','status','admission_date'],payments:['id','student_id','type','amount','status','submitted_at'],batches:['id','name','timing','active'],attendance:['id','student_id','on_date','status'],bookings:['id','student_id','slot_start','status'],announcements:['id','title','body','posted_on'],gallery:['id','category','image_path','created_at'],settings:['key','value']};
+    async function loadTable(name){ $('#tableArea').innerHTML=''; $('#tableMessage').classList.add('hidden'); document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.table===name));
+      try { const {data,error}=await supabase.from(name).select(columns[name].join(',')).limit(100); if(error) throw error; if(!data?.length){ $('#tableArea').innerHTML='<p style="padding:16px">No records found.</p>'; return; }
+        const cols=columns[name]; const table=document.createElement('table'); const thead=document.createElement('thead'),hr=document.createElement('tr'); cols.forEach(c=>{const th=document.createElement('th');th.textContent=c.replaceAll('_',' ');hr.append(th)});thead.append(hr);table.append(thead);const tbody=document.createElement('tbody');
+        data.forEach(row=>{const tr=document.createElement('tr');cols.forEach(c=>{const td=document.createElement('td');let value=row[c]; if(value===null||value===undefined)value='—'; if(typeof value==='object')value=JSON.stringify(value); td.textContent=String(value);tr.append(td)});tbody.append(tr)});table.append(tbody);$('#tableArea').append(table);
+      } catch(err){ $('#tableMessage').textContent='Unable to load '+name+'. Check that the schema has been run and that the administrator role/RLS policies are configured.'; $('#tableMessage').classList.remove('hidden'); }
+    }
+    $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button[data-table]');if(b&&supabase)loadTable(b.dataset.table)});
+  </script>
+</body>
+</html>
