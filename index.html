@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v3 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -241,7 +241,7 @@ function alogin(){return `<section style="max-width:480px"><div class="card nt">
 function initAlogin(){$('#al').onsubmit=async e=>{e.preventDefault();const er=$('#aerr'),b=$('#ab2');er.textContent='';b.disabled=true;b.textContent='Checking...';
  try{const{error}=await sb.auth.signInWithPassword({email:$('#ae').value.trim(),password:$('#ap').value});if(error)throw new Error('Wrong email or password.');
   if(await myRole()!=='admin'){await sb.auth.signOut();throw new Error('This account does not have admin access.')}
-  await loadCfg();location.hash='#admin'}catch(x){er.textContent=x.message;b.disabled=false;b.textContent='Log in'}}}
+  await loadCfg();admFlag(1);location.hash='#admin'}catch(x){er.textContent=x.message;b.disabled=false;b.textContent='Log in'}}}
 
 // ===== Admin dashboard (real data from Supabase) =====
 const pill=s=>`<span class="pill ${s=='verified'||s=='active'||s=='booked'||s=='sent'||s=='Present'?'v':s=='rejected'||s=='failed'||s=='cancelled'||s=='inactive'||s=='Absent'?'r':''}">${esc(s)}</span>`;
@@ -350,13 +350,16 @@ async function adminAct(b){const a=b.dataset.act,id=b.dataset.id;
   if(a=='gdel'){if(!confirm('Delete this photo?'))return;await sb.storage.from('site-images').remove([b.dataset.path]);await Q(sb.from('gallery').delete().eq('id',id));showA('Gallery');return}
  }catch(x){b.disabled=false;toast('Failed: '+(x.message||x))}}
 
+// Admin area opens only after a fresh login on the Admin Login page (flag lives only in this tab)
+function admFlag(v){try{if(v===undefined)return sessionStorage.getItem('adm_ok')==='1';if(v)sessionStorage.setItem('adm_ok','1');else sessionStorage.removeItem('adm_ok')}catch(e){return v===undefined?false:undefined}}
 // ===== Router =====
 let RT=0;
 async function render(){
  const t=++RT,h=location.hash.slice(1)||'home';
  $('#links').classList.remove('on');const ad=$('#adm');if(ad)ad.remove();$('#pub').classList.toggle('hide',h=='admin');
  if(!sb){$('#pv').innerHTML='<section><div class="card nt"><b>The site could not load its services.</b><p class="sub">Please check your internet connection and refresh.</p></div></section>';return}
- if(h=='admin'){if(await myRole()!=='admin'){if(t===RT)location.hash='#admin-login';return}if(t!==RT)return;await loadCfg();$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+adminShell()+'</div>');showA(curA);return}
+ if(h!='admin'&&h!='admin-login')admFlag(0);
+ if(h=='admin'){const ok=admFlag();if(!ok||await myRole()!=='admin'){if(!ok){try{await sb.auth.signOut()}catch(e){}}if(t===RT)location.hash='#admin-login';return}if(t!==RT)return;await loadCfg();$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+adminShell()+'</div>');showA(curA);return}
  const v={join,portal,'admin-login':alogin}[h];
  $('#pv').innerHTML=v?v():home();scrollTo(0,0);
  document.querySelectorAll('.links a').forEach(a=>a.classList.toggle('cur',a.getAttribute('href')=='#'+h));
@@ -365,16 +368,18 @@ async function render(){
  else if(h=='join')initJoin();else if(h=='portal')initPortal();else if(h=='admin-login')initAlogin()}
 
 document.addEventListener('click',e=>{
- if(e.target.closest('[data-lo]')){if(sb)sb.auth.signOut();return}
+ if(e.target.closest('[data-lo]')){admFlag(0);if(sb)sb.auth.signOut();return}
  if(!$('#adm'))return;
  const a=e.target.closest('[data-a]');if(a){showA(a.dataset.a);return}
  const b=e.target.closest('[data-act]');if(b)adminAct(b)});
-document.addEventListener('change',e=>{if(e.target.id=='am'){if(e.target.value=='__lo'){if(sb)sb.auth.signOut();location.hash='#home'}else showA(e.target.value)}});
+document.addEventListener('change',e=>{if(e.target.id=='am'){if(e.target.value=='__lo'){admFlag(0);if(sb)sb.auth.signOut();location.hash='#home'}else showA(e.target.value)}});
 const T=e=>e.target.closest?e.target:document.body;
 document.addEventListener('mousemove',e=>{if(matchMedia('(pointer:coarse)').matches)return;const c=T(e).closest('.card,.gal img');if(c&&!c.matches('.tw,form,#lg,.nt')){const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(8px)`}const st=T(e).closest('.stage'),sc=$('#sc');if(st&&sc){const r=st.getBoundingClientRect();sc.style.transform=`rotateY(${((e.clientX-r.left)/r.width-.5)*34}deg) rotateX(${-((e.clientY-r.top)/r.height-.5)*34}deg)`}});
 document.addEventListener('mouseout',e=>{const c=T(e).closest('.card,.gal img');if(c&&!c.contains(e.relatedTarget))c.style.transform='';const st=T(e).closest('.stage'),sc=$('#sc');if(st&&sc&&!st.contains(e.relatedTarget))sc.style.transform=''});
 
 $('#burger').onclick=()=>$('#links').classList.toggle('on');
 addEventListener('hashchange',render);
+// A fresh visit (typed link, new tab, back button) always needs a new admin login; only a page refresh keeps you in
+try{const nv=performance.getEntriesByType('navigation')[0];if(!nv||nv.type!=='reload')admFlag(0)}catch(e){admFlag(0)}
 (async()=>{if(sb)await loadCfg();render()})();
 </script></body></html>
