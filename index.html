@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v25 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v26 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -152,7 +152,7 @@ const sb=window.supabase?supabase.createClient(SB_URL,SB_KEY):null;
 // Supabase rejects made-up email domains, so each mobile number maps to a login address on a real mail domain.
 // No email is ever sent (keep "Confirm email" OFF in Supabase). Old accounts on the previous address still work.
 const mail=p=>'swaralay.s'+p+'@gmail.com',mailOld=p=>'s'+p+'@swaralay-students.com';
-async function pwLogin(p,pw){let r=await sb.auth.signInWithPassword({email:mail(p),password:pw});if(r.error)try{const o=await sb.auth.signInWithPassword({email:mailOld(p),password:pw});if(!o.error)r=o}catch(e){}return r}
+async function pwLogin(p,pw){let r=await sb.auth.signInWithPassword({email:mail(p),password:pw});if(r.error)try{const o=await sb.auth.signInWithPassword({email:mailOld(p),password:pw});if(!o.error)r=o}catch(e){}if(r.error&&OTP_ENABLED)try{const o=await sb.auth.signInWithPassword({phone:'+91'+p,password:pw});if(!o.error)r=o}catch(e){}return r}
 
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -173,6 +173,10 @@ async function upl(file,uid){const path=uid+'/'+Date.now()+(file.type=='image/pn
 const WHATSAPP_NUMBER='7020974413';   // e.g. '9876543210' (10 digits, no +91 or spaces)
 const MAPS_URL='https://maps.google.com/maps/place//data=!4m2!3m1!1s0x3bddebd81d22497d:0xc0393948d39b5c37?entry=s&sa=X&ved=2ahUKEwjkhbaq-qyXAxV5kOEIHefaE0wQ4kB6BAgEEAA&hl=en';          // paste your Google Maps link here (optional)
 const YOUTUBE_URL='https://youtube.com/@swaralaymusic7777?si=6guZxz3_F8K4i_Om';       // e.g. 'https://www.youtube.com/@yourchannel'
+// Turn ON only after you connect an SMS provider in Supabase (Authentication > Providers > Phone).
+// ON  = mobile number is verified by OTP at registration, and "Forgot password" resets by OTP.
+// OFF = registration works without OTP, and "Forgot password" sends a reset request to the academy on WhatsApp.
+const OTP_ENABLED=false;
 // ================================
 let CFG={};
 async function loadCfg(){try{const d=await Q(sb.from('settings').select('key,value'));(d||[]).forEach(r=>CFG[r.key]=r.value)}catch(e){}}
@@ -247,7 +251,7 @@ function soc(){const d=String(WHATSAPP_NUMBER||'').replace(/\D/g,''),w=d?(d.leng
 
 function join(){const fee=+CFG.registration_fee;return `<section id="jn"><div class="split"><div class="jl"><div class="jhero"><svg class="jw a" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="jw b" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><svg class="jw c" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><h2>Student Registration</h2><p>Begin your journey in Sugam Sangeet and Upshastriya Sangeet with Swaralay Music Academy.</p><div class="jfee"><small>One-time registration fee</small>${fee>0?inr(fee):'not set yet'}</div><p>Create your login, pay by UPI and upload the payment screenshot. Your access starts after the academy verifies the payment.</p><ol class="jsteps"><li><b class="sn">1</b><span>Fill in your details and create a password</span></li><li><b class="sn">2</b><span>Pay the fee by UPI and upload the screenshot</span></li><li><b class="sn">3</b><span>Get verified and start learning</span></li></ol><p><small>Already registered? <a href="#portal">Member Login</a></small></p></div></div>
 <form class="card nt" id="rf" novalidate><div class="fh"><div class="bd"><svg viewBox="0 0 24 24"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg></div><div><h3>Join Swaralay</h3><small>It takes only a minute</small></div></div><label>Full name</label><input id="fn" maxlength="100" autocomplete="name"><div class="err"></div>
-<label>WhatsApp mobile number</label><input id="ph" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel"><div class="err"></div>
+<label>WhatsApp mobile number</label><input id="ph" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel"><div class="err"></div>${OTP_ENABLED?'<div class="vbox"><button type="button" class="btn s g" id="vsend">Verify mobile number by OTP</button><div id="vcw" class="hide row" style="margin-top:8px"><input id="vc" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" style="flex:1;min-width:140px"><button type="button" class="btn s" id="vok">Verify</button></div><small id="vmsg" style="display:block;margin-top:6px"></small></div>':''}
 <label>Date of birth</label><input id="dob" type="date"><div class="err"></div>
 <label>Class format</label><select id="cf"><option>Online</option><option>Offline</option></select>
 <label>Track</label><select id="tr"><option value="Individual">Individual 1-Hour</option><option value="Group">Group</option></select>
@@ -259,6 +263,17 @@ function join(){const fee=+CFG.registration_fee;return `<section id="jn"><div cl
 <div class="ok" id="ok"><b>Payment submitted successfully.</b><br>Status: Waiting for Admin Verification<br><small>You can use Member Login with your mobile number to see your status.</small></div></form></div></section>`}
 function initJoin(){
  $('#cp').onclick=e=>{try{navigator.clipboard.writeText(CFG.upi_id||'')}catch(x){}e.target.textContent='Copied'};
+ let VER=null;
+ if(OTP_ENABLED){const vm=t=>$('#vmsg').textContent=t;
+  $('#vsend').onclick=async()=>{const p=$('#ph').value.trim();if(!/^[6-9]\d{9}$/.test(p)){vm('Enter a valid 10-digit mobile number first.');return}
+   const b=$('#vsend');b.disabled=true;
+   try{let reg=false;try{reg=await Q(sb.rpc('is_registered_phone',{p}))}catch(x){}
+    if(reg){vm('This mobile number is already registered. Please use Member Login.');return}
+    const{error}=await sb.auth.signInWithOtp({phone:'+91'+p});if(error){vm('Could not send OTP: '+error.message);return}
+    $('#vcw').classList.remove('hide');vm('OTP sent to +91 '+p+'.')}finally{b.disabled=false}};
+  $('#vok').onclick=async()=>{const p=$('#ph').value.trim(),c=$('#vc').value.trim();if(!/^\d{6}$/.test(c)){vm('Enter the 6-digit OTP.');return}
+   const{error}=await sb.auth.verifyOtp({phone:'+91'+p,token:c,type:'sms'});if(error){vm('Wrong or expired OTP.');return}
+   VER=p;$('#ph').readOnly=true;$('#vcw').classList.add('hide');$('#vsend').classList.add('hide');vm('✓ Mobile number verified')};}
  $('#rf').onsubmit=async e=>{e.preventDefault();
   const bad=(id,c,m)=>{$(id).nextElementSibling.textContent=c?'':m;return !c};
   const n=$('#fn').value.trim(),ph=$('#ph').value.trim(),dob=$('#dob').value,pw=$('#pw').value,f=$('#ss').files[0],fee=+CFG.registration_fee,fe=$('#fe');fe.textContent='';
@@ -269,12 +284,16 @@ function initJoin(){
   x=bad('#pw',pw.length>=8,'Password must be at least 8 characters.')|x;
   x=bad('#ss',okFile(f),'Upload a PNG or JPG screenshot under 5 MB.')|x;
   if(x)return;
+  if(OTP_ENABLED&&VER!==ph){fe.textContent='Please verify your mobile number with OTP first.';return}
   if(!(fee>0)){fe.textContent='The registration fee is not set yet. Please contact the academy.';return}
   const b=$('#sb2'),pg=$('#pg');b.disabled=true;b.textContent='Submitting...';
   try{
    pg.style.width='20%';
-   let uid;const r=await sb.auth.signUp({email:mail(ph),password:pw});
-   if(r.error&&/registered|exists/i.test(r.error.message)){
+   let uid,r;
+   if(OTP_ENABLED){const u=await me();if(!u)throw new Error('Mobile verification expired. Please verify again.');const up=await sb.auth.updateUser({password:pw});if(up.error)throw up.error;uid=u.id;r={}}
+   else r=await sb.auth.signUp({email:mail(ph),password:pw});
+   if(OTP_ENABLED){}
+   else if(r.error&&/registered|exists/i.test(r.error.message)){
     const l=await pwLogin(ph,pw);
     if(l.error)throw new Error('This mobile number is already registered. Please use Member Login.');
     uid=l.data.user.id;const ex=await Q(sb.from('students').select('id').eq('user_id',uid).maybeSingle());
@@ -291,7 +310,7 @@ function initJoin(){
   }catch(err){pg.style.width='0';fe.textContent=err.message||'Something went wrong. Please try again.';b.disabled=false;b.textContent='Submit registration'}
  }}
 
-function portal(){return `<section><h2 class="ph" style="text-align:center">Member Login</h2><div class="card nt" id="lg"><svg class="pw a" viewBox="0 0 24 24" style="fill:#d4881a" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><svg class="pw b" viewBox="0 0 24 24" style="fill:#1f8a70" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="pw c" viewBox="0 0 24 24" style="fill:#a31621" aria-hidden="true"><path d="M12 3a9 9 0 0 0-9 9v5a3 3 0 0 0 3 3h1.5a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H5v-1a7 7 0 0 1 14 0v1h-2.5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1H18a3 3 0 0 0 3-3v-5a9 9 0 0 0-9-9z"/></svg><svg class="pw d" viewBox="0 0 24 24" style="fill:#2f6fb5" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="pw e" viewBox="0 0 24 24" style="fill:#a31621" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><div class="pbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg></div><p class="pwel">Welcome back to Swaralay</p><div class="mtabs"><button type="button" class="on" id="tp">Password</button><button type="button" id="to">OTP</button></div><form id="sl2"><label>Registered mobile number</label><input id="lp" inputmode="numeric" maxlength="10" autocomplete="username"><label>Password</label><input id="lw" type="password" autocomplete="current-password"><div class="err" id="lerr"></div><button class="btn" style="margin-top:16px;width:100%">Log in</button></form><form id="otf" class="hide" novalidate><label>Registered mobile number</label><input id="op" inputmode="numeric" maxlength="10" autocomplete="tel"><div id="ocw" class="hide"><label>Enter the 6-digit OTP</label><input id="oc" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div><div class="err" id="oerr"></div><button class="btn" id="osb" style="margin-top:16px;width:100%">Send OTP</button><p class="sub"><small id="oinfo">An OTP will be sent by SMS to your registered mobile number.</small></p></form><p class="sub"><small>New student? <a href="#join">Register here</a></small></p></div><div id="sd" class="hide"></div></section>`}
+function portal(){return `<section><h2 class="ph" style="text-align:center">Member Login</h2><div class="card nt" id="lg"><svg class="pw a" viewBox="0 0 24 24" style="fill:#d4881a" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><svg class="pw b" viewBox="0 0 24 24" style="fill:#1f8a70" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="pw c" viewBox="0 0 24 24" style="fill:#a31621" aria-hidden="true"><path d="M12 3a9 9 0 0 0-9 9v5a3 3 0 0 0 3 3h1.5a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H5v-1a7 7 0 0 1 14 0v1h-2.5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1H18a3 3 0 0 0 3-3v-5a9 9 0 0 0-9-9z"/></svg><svg class="pw d" viewBox="0 0 24 24" style="fill:#2f6fb5" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="pw e" viewBox="0 0 24 24" style="fill:#a31621" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><div class="pbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg></div><p class="pwel">Welcome back to Swaralay</p><div class="mtabs"><button type="button" class="on" id="tp">Password</button><button type="button" id="to">OTP</button></div><form id="sl2"><label>Registered mobile number</label><input id="lp" inputmode="numeric" maxlength="10" autocomplete="username"><label>Password</label><input id="lw" type="password" autocomplete="current-password"><div class="err" id="lerr"></div><button class="btn" style="margin-top:16px;width:100%">Log in</button></form><form id="otf" class="hide" novalidate><label>Registered mobile number</label><input id="op" inputmode="numeric" maxlength="10" autocomplete="tel"><div id="ocw" class="hide"><label>Enter the 6-digit OTP</label><input id="oc" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></div><div class="err" id="oerr"></div><button class="btn" id="osb" style="margin-top:16px;width:100%">Send OTP</button><p class="sub"><small id="oinfo">An OTP will be sent by SMS to your registered mobile number.</small></p></form><p class="sub" style="margin-top:12px"><small><a href="#" id="fpl">Forgot password?</a></small></p><form id="fpf" class="hide" novalidate><b>Reset your password</b><label>Registered mobile number</label><input id="fpn" inputmode="numeric" maxlength="10" autocomplete="tel"><div id="fpo" class="hide"><label>Enter the 6-digit OTP</label><input id="fpc" inputmode="numeric" maxlength="6" autocomplete="one-time-code"><label>New password (at least 8 characters)</label><input id="fpp" type="password" autocomplete="new-password"></div><div class="err" id="fpe"></div><button class="btn" id="fpb" style="margin-top:12px;width:100%">${OTP_ENABLED?'Send OTP':'Request reset on WhatsApp'}</button><p class="sub"><small id="fpi">${OTP_ENABLED?'We will send an OTP to your registered mobile number.':'The academy will verify you and reset your password. This opens WhatsApp with your request.'}</small></p></form><p class="sub"><small>New student? <a href="#join">Register here</a></small></p></div><div id="sd" class="hide"></div></section>`}
 function initPortal(){
  const ok=async(er,sbtn)=>{try{if(!await loadStudent()){await sb.auth.signOut();MEMC=false;er.textContent='No member profile found for this mobile number.';return false}MEMC=true;LOG=true;setNav(true);return true}catch(x){er.textContent='Could not load your profile. Please try again.';return false}};
  $('#sl2').onsubmit=async e=>{e.preventDefault();const p=$('#lp').value.trim(),er=$('#lerr');er.textContent='';
@@ -302,6 +321,23 @@ function initPortal(){
  const tp=$('#tp'),to=$('#to'),pf=$('#sl2'),of=$('#otf');
  tp.onclick=()=>{tp.classList.add('on');to.classList.remove('on');pf.classList.remove('hide');of.classList.add('hide')};
  to.onclick=()=>{to.classList.add('on');tp.classList.remove('on');of.classList.remove('hide');pf.classList.add('hide')};
+ $('#fpl').onclick=e=>{e.preventDefault();$('#fpf').classList.toggle('hide')};
+ let fsent=false,fnum='';
+ $('#fpf').onsubmit=async e=>{e.preventDefault();const er=$('#fpe'),b=$('#fpb');er.textContent='';
+  const p=$('#fpn').value.trim();if(!/^[6-9]\d{9}$/.test(p)){er.textContent='Enter your 10-digit registered mobile number.';return}
+  if(!OTP_ENABLED){window.open(waLink('Hello Swaralay Music Academy, I forgot my password. My registered mobile number is '+p+'. Please help me reset it.'),'_blank','noopener');return}
+  if(!fsent){b.disabled=true;b.textContent='Sending...';
+   try{let reg=true;try{reg=await Q(sb.rpc('is_registered_phone',{p}))}catch(x){}
+    if(reg===false){er.textContent='This mobile number is not registered.';return}
+    const{error}=await sb.auth.signInWithOtp({phone:'+91'+p});if(error){er.textContent='Could not send OTP: '+error.message;return}
+    fsent=true;fnum=p;$('#fpn').readOnly=true;$('#fpo').classList.remove('hide');b.textContent='Reset password';$('#fpi').textContent='OTP sent to +91 '+p+'.'}
+   finally{b.disabled=false;if(!fsent)b.textContent='Send OTP'}return}
+  const c=$('#fpc').value.trim(),np=$('#fpp').value;if(!/^\d{6}$/.test(c)){er.textContent='Enter the 6-digit OTP.';return}if(np.length<8){er.textContent='Password must be at least 8 characters.';return}
+  b.disabled=true;b.textContent='Resetting...';
+  try{const v=await sb.auth.verifyOtp({phone:'+91'+fnum,token:c,type:'sms'});if(v.error){er.textContent='Wrong or expired OTP.';return}
+   const up=await sb.auth.updateUser({password:np});if(up.error){er.textContent='Could not set the new password: '+up.error.message;return}
+   toast('Password changed. You are now logged in.');await ok(er)}
+  finally{b.disabled=false;b.textContent='Reset password'}};
  let sent=false,num='';
  of.onsubmit=async e=>{e.preventDefault();const er=$('#oerr'),b=$('#osb');er.textContent='';
   if(!sent){const p=$('#op').value.trim();if(!/^[6-9]\d{9}$/.test(p)){er.textContent='Enter your 10-digit registered mobile number.';return}
@@ -345,7 +381,7 @@ async function loadStudent(){
  let sl=[];try{sl=await Q(sb.from('session_links').select('*').eq('active',true).order('created_at',{ascending:false}))}catch(e){}
  const slc=x=>x.length?`<div class="sess">${x.map(l=>`<div class="sl"><div><span class="kd ${esc(l.kind)}">${esc(l.kind)}</span> <b>${esc(l.title)}</b>${l.schedule?`<br><small>${esc(l.schedule)}</small>`:''}</div><a class="btn s" href="${esc(l.url)}" target="_blank" rel="noopener">Join session</a></div>`).join('')}</div>`:'<p class="sub">No session links have been shared yet.</p>';
  g=`<div class="card nt" style="grid-column:1/-1"><b>Online Sessions</b>${slc(sl)}${act?'':'<p class="sub"><small>Permanent session links appear after your registration is verified. Demo links are available now.</small></p>'}</div>`+g;
- const mno=s.member_no?'SWL-'+String(s.member_no).padStart(4,'0'):'—';
+ const mno=s.member_no?'SWL-'+String(s.member_no).padStart(4,'0'):(s.status==='pending'?'Issued after approval':'—');
  $('#lg').classList.add('hide');const ph=document.querySelector('.ph');if(ph)ph.textContent='My Dashboard';const sd=$('#sd');sd.classList.remove('hide');
  sd.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center;margin:0 0 12px"><div><h3 style="margin:0 0 8px">Welcome, ${esc(s.full_name)}</h3><div class="mid"><div><small>Member ID</small><b>${mno}</b></div></div></div><button class="btn s g" id="so">Log out</button></div>${banner}<div class="grid">${g}</div>`;
  $('#so').onclick=async()=>{await sb.auth.signOut();MEMC=false;MEMS=null;LOG=false;setNav(false);location.hash='#home';sd.classList.add('hide');$('#lg').classList.remove('hide');$('#lw').value=''};
@@ -378,7 +414,7 @@ function initAlogin(){const msg=t=>{const m=$('#almsg');m.textContent=t;m.classL
 // ===== Admin dashboard (real data from Supabase) =====
 const pill=s=>`<span class="pill ${s=='verified'||s=='active'||s=='booked'||s=='sent'||s=='Present'?'v':s=='rejected'||s=='failed'||s=='cancelled'||s=='inactive'||s=='Absent'?'r':''}">${esc(s)}</span>`;
 function tbl(h,r){return r.length?`<div class="card tw nt"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.map(x=>`<tr>${x.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table></div>`:'<div class="card nt"><p class="sub" style="margin:0">Nothing here yet.</p></div>'}
-const AV=['Dashboard','Students','Payments','Batches','Attendance','Bookings','Reports','Upcoming Events','Session Links','Reviews','Gallery','Birthday Messages','Settings'];
+const AV=['Dashboard','Admissions','Students','Payments','Batches','Attendance','Bookings','Reports','Upcoming Events','Session Links','Reviews','Gallery','Birthday Messages','Settings'];
 let curA='Dashboard';
 function adminShell(){const n=$('#pub nav'),f=$('#pub footer'),hdr=n?n.outerHTML.replace(' id="links"','').replace('id="burger"','data-burger="1"').replace('<nav>','<nav class="admnav">').replace(/class="cur"/g,''):'',ftr=f?f.outerHTML:'';return hdr+`<div class="app"><aside class="side"><div class="logo" style="color:#fff;margin:6px 14px 18px"><i>♪</i>Swaralay</div>${AV.map(x=>`<a data-a="${x}">${x}</a>`).join('')}<a href="#home" data-lo="1">Logout</a></aside><div class="main"><select class="amob" id="am">${AV.map(x=>`<option>${x}</option>`).join('')}<option value="__lo">Logout</option></select><h2 id="at"></h2><div id="ab"></div></div><div class="bn"><a data-a="Dashboard">Home</a><a data-a="Students">Students</a><a data-a="Payments">Pay</a><a href="#home" data-lo="1">Logout</a></div></div>`+ftr}
 const AVW={},AIN={};
@@ -392,7 +428,7 @@ AVW.Dashboard=async()=>{
  ver.forEach(p=>{const d=new Date(p.verified_at||p.submitted_at),m=mo.find(x=>x.k===d.getFullYear()+'-'+d.getMonth());if(m)m.v+=+p.amount});const mx=Math.max(1,...mo.map(m=>m.v));
  const rs=[...st].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,5),rp=[...pay].sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at)).slice(0,5),bd=bdays(st).slice(0,5);
  const li=a=>a.length?a.join('<br>'):'<span class="sub">Nothing yet.</span>';
- return `<div class="grid">${[['Active Students',act],['Fees Collected',inr(coll)],['Pending Dues',inr(dues)],['Pending Verifications',pend]].map(s=>`<div class="card nt"><small>${s[0]}</small><div class="stat">${s[1]}</div></div>`).join('')}</div>
+ return `<div class="grid">${[['Active Students',act],['Fees Collected',inr(coll)],['Pending Dues',inr(dues)],['Pending Admissions',st.filter(s=>s.status==='pending').length]].map(s=>`<div class="card nt"${s[0]==='Pending Admissions'?' data-a="Admissions" style="cursor:pointer" title="Open Admissions"':''}><small>${s[0]}</small><div class="stat">${s[1]}</div></div>`).join('')}</div>
  <div class="grid" style="margin-top:22px"><div class="card nt"><b>Collections, last 6 months</b><div class="bars">${mo.map(m=>`<i title="${inr(m.v)}" style="height:${Math.max(3,Math.round(m.v*100/mx))}%"></i>`).join('')}</div><div class="row" style="justify-content:space-between;margin-top:6px;gap:0">${mo.map(m=>`<small>${m.l}</small>`).join('')}</div></div>
  <div class="card nt"><b>Recent registrations</b><p>${li(rs.map(s=>esc(s.full_name)+' · '+esc(s.track)+' · '+pill(s.status)))}</p></div>
  <div class="card nt"><b>Recent payments</b><p>${li(rp.map(p=>esc(p.students?p.students.full_name:'')+' · '+inr(p.amount)+' · '+pill(p.status)))}</p></div>
@@ -400,6 +436,10 @@ AVW.Dashboard=async()=>{
  <div class="card nt"><b>Upcoming individual bookings</b><p>${li(bk.map(b=>dt(b.slot_start)+' '+tm(b.slot_start)+' · '+esc(b.students?b.students.full_name:'')))}</p></div></div>
  <p class="sub"><small>Pending Dues counts active students whose current monthly cycle has no verified payment yet.</small></p>`};
 
+
+AVW.Admissions=async()=>{const[st,pay,bt]=await Promise.all([Q(sb.from('students').select('*').eq('status','pending').order('created_at',{ascending:false})),Q(sb.from('payments').select('*').eq('type','Registration').order('submitted_at',{ascending:false})),Q(sb.from('batches').select('*').eq('active',true).order('name'))]);
+ return `<p class="sub">New registrations wait here. Check the payment screenshot, then approve the admission. The member gets a Member ID and full access.</p><div class="grid">${st.map(s=>{const p=pay.find(x=>x.student_id===s.id&&x.status==='pending'),rj=pay.find(x=>x.student_id===s.id&&x.status==='rejected');
+ return `<div class="card nt"><b>${esc(s.full_name)}</b><p>${esc(s.whatsapp)} · ${esc(s.track)} · ${esc(s.class_format)}<br>DOB ${dt(s.dob)} · Registered ${dt(s.created_at)}</p>`+(p?`<p>Registration payment: <b>${inr(p.amount)}</b><br><small>Submitted ${dt(p.submitted_at)} ${tm(p.submitted_at)}</small></p><div class="row" style="margin-top:6px"><button class="btn s g" data-act="view" data-path="${esc(p.screenshot_path||'')}">View Screenshot</button></div><label>Monthly fee (₹)</label><input type="number" min="0" id="af_${s.id}" value="0"><label>Batch</label><select id="ab_${s.id}"><option value="">No batch</option>${bt.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join('')}</select><div class="row"><button class="btn s" data-act="admit" data-id="${p.id}" data-sid="${s.id}">Approve admission</button><button class="btn s g" data-act="reject-adm" data-id="${p.id}">Reject payment</button></div>`:`<span class="pill">${rj?'Payment rejected: waiting for a new screenshot':'Payment screenshot not submitted yet'}</span>`)+`</div>`}).join('')||'<p class="sub">No pending admissions right now.</p>'}</div>`};
 AVW.Students=async()=>{
  const[st,bt]=await Promise.all([Q(sb.from('students').select('*,batches(name)').order('created_at',{ascending:false})),Q(sb.from('batches').select('*').order('name'))]);window._st=st;
  return `<div class="card nt" style="margin-bottom:18px"><h3 id="sft">Add student</h3><form id="sf1"><input type="hidden" id="sid"><div class="grid">
@@ -482,6 +522,8 @@ async function adminAct(b){const a=b.dataset.act,id=b.dataset.id;
   if(a=='edit-s'){const s=window._st.find(x=>x.id===id);$('#sid').value=s.id;$('#s1').value=s.full_name;$('#s2').value=s.whatsapp;$('#s3').value=s.dob;$('#s4').value=s.class_format;$('#s5').value=s.track;$('#s6').value=s.batch_id||'';$('#s7').value=s.monthly_fee;$('#s8').value=s.admission_date||'';$('#s9').value=s.status;$('#sft').textContent='Edit student';scrollTo({top:0,behavior:'smooth'});return}
   if(a=='edit-a'){const n=window._an.find(x=>x.id===id);$('#aid').value=n.id;$('#a1').value=n.title;$('#a2').value=n.posted_on;$('#a3').value=n.body||'';$('#aft').textContent='Edit event';scrollTo({top:0,behavior:'smooth'});return}
   if(a=='view'){if(!b.dataset.path){toast('No screenshot was uploaded.');return}const w=window.open('','_blank');const{data,error}=await sb.storage.from('payment-screenshots').createSignedUrl(b.dataset.path,300);if(error||!data){if(w)w.close();toast('Could not open the screenshot.');return}if(w)w.location=data.signedUrl;else location.href=data.signedUrl;return}
+  if(a=='admit'){const sid=b.dataset.sid;b.disabled=true;await Q(sb.rpc('verify_payment',{pid:id}));const fe=$('#af_'+sid),bt=$('#ab_'+sid);await Q(sb.from('students').update({monthly_fee:+(fe&&fe.value)||0,batch_id:(bt&&bt.value)||null}).eq('id',sid));toast('Admission approved ✓ Member ID issued');showA('Admissions');return}
+  if(a=='reject-adm'){if(!confirm('Reject this payment? The student can upload a new screenshot.'))return;await Q(sb.from('payments').update({status:'rejected'}).eq('id',id));toast('Payment rejected.');showA('Admissions');return}
   if(a=='verify'){b.disabled=true;await Q(sb.rpc('verify_payment',{pid:id}));toast('Payment Verified ✓');showA('Payments');return}
   if(a=='reject'){if(!confirm('Reject this payment?'))return;await Q(sb.from('payments').update({status:'rejected'}).eq('id',id));toast('Payment rejected.');showA('Payments');return}
   if(a=='btog'){await Q(sb.from('batches').update({active:b.dataset.on!=='1'}).eq('id',id));showA('Batches');return}
