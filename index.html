@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v23 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v24 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -138,7 +138,7 @@ html body,html body *{font-weight:700!important}
 </style></head><body>
 <div id="pub">
 <nav><a class="logo" href="#home" aria-label="Swaralay Music Academy home"><img class="header-logo" src="logo.jpeg" alt="Swaralay Music Academy logo"></a><button id="burger" aria-label="Menu">Menu</button>
-<div class="links" id="links"><a href="#home">Home</a></div></nav>
+<div class="links" id="links"><a href="#home">Home</a><a href="#about">About Us</a><a href="#courses">Courses</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a><a href="#portal" data-v="portal">Student Portal</a><a class="btn s" href="#join" data-v="join">Join Swaralay</a></div></nav>
 <div id="tick" class="tick hide" aria-label="Upcoming events"></div>
 <main id="pv"></main>
 <footer style="text-align:center;padding:30px;color:var(--mut)">© Swaralay Music Academy, Nashik<br><div class="hits hide" id="hits" title="Total website visits"><span>👁 Visitors</span><span class="hn" id="hn"></span></div></footer></div>
@@ -179,7 +179,7 @@ async function loadCfg(){try{const d=await Q(sb.from('settings').select('key,val
 let MEMC=null,MEMS=null,LOG=false;
 if(sb)sb.auth.onAuthStateChange(()=>{MEMC=null;MEMS=null});
 async function isMember(){if(MEMC!==null)return MEMC;try{const u=await me();if(!u){MEMC=false;return false}if(await myRole()==='admin'){MEMC=true;return true}const r=await Q(sb.from('students').select('id,full_name').limit(1).maybeSingle());MEMS=r||null;MEMC=!!r;return MEMC}catch(e){return false}}
-function setNav(on){const l=$('#links');if(!l)return;l.innerHTML='<a href="#home">Home</a>'+(on?'<a href="#about">About Us</a><a href="#courses">Courses</a><a href="#gallery">Gallery</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a><a class="btn s" href="#portal">My Dashboard</a>':'')}
+function setNav(on){const l=$('#links');if(!l)return;l.innerHTML='<a href="#home">Home</a><a href="#about">About Us</a><a href="#courses">Courses</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a><a href="#portal" data-v="portal">Student Portal</a><a class="btn s" href="#join" data-v="join">Join Swaralay</a>'}
 const waNum=()=>{const d=String(WHATSAPP_NUMBER||CFG.whatsapp||'').replace(/\D/g,'');return d.length==10?'91'+d:d};
 const waLink=t=>{const n=waNum();return n?'https://wa.me/'+n+(t?'?text='+encodeURIComponent(t):''):'#'};
 async function loadTicker(){const el=$('#tick');if(!el)return;try{const d=await Q(sb.from('announcements').select('*').gte('posted_on',ymd(new Date())).order('posted_on',{ascending:true}).limit(20));
@@ -503,7 +503,7 @@ async function render(){
  if(!sb){$('#pv').innerHTML='<section><div class="card nt"><b>The site could not load its services.</b><p class="sub">Please check your internet connection and refresh.</p></div></section>';return}
  if(h!='admin'&&h!='admin-login')admFlag(0);
  if(h=='admin'){const ok=admFlag();if(!ok||await myRole()!=='admin'){if(!ok){try{await sb.auth.signOut()}catch(e){}}if(t===RT)location.hash='#admin-login';return}if(t!==RT)return;await loadCfg();if(t!==RT)return;$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+adminShell()+'</div>');scrollTo(0,0);showA(curA);return}
- if(h!='admin'){const L=await isMember();if(t!==RT)return;LOG=L;setNav(L);if(!['home','portal','join'].includes(h)&&!L){location.hash='#home';return}}
+ if(h!='admin'){const L=await isMember();if(t!==RT)return;LOG=L;setNav(L);/* site gate paused for now */}
  const v={join,portal}[h];
  $('#pv').innerHTML=v?v():home();scrollTo(0,0);
  document.querySelectorAll('.links a').forEach(a=>a.classList.toggle('cur',a.getAttribute('href')=='#'+h));
