@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v31 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v32 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -42,6 +42,17 @@ nav{border-bottom:4px double var(--gd);background:#F7F7F7}.links a{display:flex;
 .mic b{display:block;width:12%;height:90px;margin:-6px auto 0;background:linear-gradient(90deg,#333,#aaa,#333);border-radius:6px}
 .keys{position:absolute;left:12%;right:12%;bottom:15%;height:17%;display:flex;gap:3px;transform:translateZ(120px) rotateX(38deg)}
 .keys u{flex:1;background:#fffdf5;border-radius:0 0 8px 8px;box-shadow:0 9px 0 #e3b9b2,0 18px 22px #0004}
+.swa{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:translateZ(70px);filter:drop-shadow(0 4px 4px #0006);-webkit-user-select:none;user-select:none}
+.swk{cursor:pointer;outline:none;touch-action:pan-y;-webkit-tap-highlight-color:transparent;transform-box:fill-box;transform-origin:center;transition:transform .08s}
+.swk .kb{transition:fill .1s}
+.swk.w .kb{fill:url(#swW);stroke:#b8780f;stroke-width:.3}.swk.b .kb{fill:url(#swB);stroke:#12030a;stroke-width:.3}
+.swk.w:hover .kb{fill:#fff1cf}.swk.b:hover .kb{fill:#5c1822}
+.swk.on .kb{fill:#ffc24a!important}.swk.b.on .kb{fill:#d64045!important}.swk.on{transform:scale(.965)}
+.swk text{font:700 3.3px 'Tiro Devanagari Marathi',Georgia,serif;fill:#7a1019;text-anchor:middle;pointer-events:none}
+.swk.b text{fill:#ffd27a;font-size:2.3px}.swk circle{fill:#7a1019;pointer-events:none}
+.swa .plate{fill:none;stroke:#e8a317;stroke-width:.35;stroke-opacity:.8;pointer-events:none}
+.swa .glow{animation:swg 3.2s ease-in-out infinite}@keyframes swg{50%{opacity:.35}}
+
 .glass{transform:translateZ(170px)}.card{transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .2s}.card:hover{box-shadow:0 2px 2px #a3162114,0 18px 28px -8px #a3162133,0 44px 60px -26px #a3162155}
 .ic{transform:translateZ(36px)}.card h3{transform:translateZ(20px)}
 .disc{position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle at 30% 25%,var(--mr2),var(--mr) 60%,#4a0810);box-shadow:var(--sh),inset 0 -20px 40px #0004;transform:rotateX(18deg) rotateY(-14deg);animation:tilt 9s ease-in-out infinite alternate}
@@ -207,9 +218,48 @@ const courses=[['🎤','Light Vocal Music','Bhavgeet, ghazal and film-style sing
 const gcat=['Performances','Student Recitals','Academy Events','Classes','Achievements'];
 const gl=x=>x==='Student Recitals'?'Member Recitals':x;
 
+// ===== Swar keys (12 keys, semicircle) with a harmonium-like sound =====
+// 8 white keys: Sa Re Ga Ma Pa Dha Ni Sa(upper). 4 black keys: komal re, ga, dha, ni.
+const SWK=[['Sa',1,'w'],['re',16/15,'b'],['Re',9/8,'w'],['ga',6/5,'b'],['Ga',5/4,'w'],['Ma',4/3,'w'],['Pa',3/2,'w'],['dha',8/5,'b'],['Dha',5/3,'w'],['ni',9/5,'b'],['Ni',15/8,'w'],['Sa',2,'w']];
+const SWKEYS={a:'0',w:'1',s:'2',e:'3',d:'4',f:'5',g:'6',y:'7',h:'8',u:'9',j:'10',k:'11'};
+function swKeys(){
+ const P=(r,a)=>[(50+r*Math.cos(a*Math.PI/180)).toFixed(2),(50+r*Math.sin(a*Math.PI/180)).toFixed(2)],R1=26,R2=46,A0=168,SP=156,W=SP/8,rb=R1+(R2-R1)*.56;
+ const sec=(r1,r2,a1,a2)=>{const[o1,o2,i2,i1]=[P(r2,a1),P(r2,a2),P(r1,a2),P(r1,a1)];return `M${o1}A${r2} ${r2} 0 0 0 ${o2}L${i2}A${r1} ${r1} 0 0 1 ${i1}Z`};
+ let wi=0,wh='',bl='',idx=0;
+ const keys=SWK.map(([n,ra,t],i)=>({n,ra,t,i}));
+ keys.filter(k=>k.t==='w').forEach((k,j)=>{const a1=A0-j*W-.4,a2=A0-(j+1)*W+.4,am=(a1+a2)/2,lp=P(R2-4.6,am);
+  wh+=`<g class="swk w" data-i="${k.i}" role="button" aria-label="${k.n}" tabindex="-1"><path class="kb" d="${sec(R1,R2,a1,a2)}"/><text x="${lp[0]}" y="${(+lp[1]+1.1).toFixed(2)}">${k.n}</text>${j==7?`<circle cx="${lp[0]}" cy="${(+lp[1]-2.2).toFixed(2)}" r=".55"/>`:''}</g>`});
+ // black keys sit on the boundaries between white keys
+ const bd={1:0,3:1,7:4,9:5};
+ keys.filter(k=>k.t==='b').forEach(k=>{const ab=A0-(bd[k.i]+1)*W,a1=ab+6,a2=ab-6,lp=P(rb-3.4,ab);
+  bl+=`<g class="swk b" data-i="${k.i}" role="button" aria-label="komal ${k.n}" tabindex="-1"><path class="kb" d="${sec(R1,rb,a1,a2)}"/><text x="${lp[0]}" y="${(+lp[1]+.8).toFixed(2)}">${k.n}</text></g>`});
+ const arc=(r,a1,a2)=>`M${P(r,a1)}A${r} ${r} 0 0 0 ${P(r,a2)}`;
+ return `<svg class="swa" id="swa" viewBox="0 0 100 100" aria-label="Swar keys: tap to play"><defs><linearGradient id="swW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf5"/><stop offset="1" stop-color="#f3dcc4"/></linearGradient><linearGradient id="swB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b1520"/><stop offset="1" stop-color="#1c050b"/></linearGradient></defs><path class="plate glow" d="${arc(R1-1.6,A0+4,A0-SP-4)}"/><path class="plate glow" d="${arc(R2+1.6,A0+4,A0-SP-4)}"/>${wh}${bl}</svg>`}
+let SWAC=null,SWM=null;const SWN={};
+function swAudio(){try{if(!SWAC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SWAC=new C();SWM=SWAC.createGain();SWM.gain.value=.55;const cp=SWAC.createDynamicsCompressor();SWM.connect(cp);cp.connect(SWAC.destination)}if(SWAC.state==='suspended')SWAC.resume();return SWAC}catch(e){return null}}
+function swOn(i){const a=swAudio();if(!a||SWN[i])return;const f=261.63*SWK[i][1],t=a.currentTime;
+ const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.34,t+.07);g.gain.setTargetAtTime(.25,t+.07,.3);
+ const pk=a.createBiquadFilter();pk.type='peaking';pk.frequency.value=1150;pk.gain.value=6;pk.Q.value=1.1;
+ const lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;lp.Q.value=.6;
+ const os=[['sawtooth',f,0,.5],['sawtooth',f,8,.42],['sawtooth',f/2,-4,.26],['square',f*2,3,.1]].map(([ty,fr,dt,gn])=>{const o=a.createOscillator(),og=a.createGain();o.type=ty;o.frequency.value=fr;o.detune.value=dt;og.gain.value=gn;o.connect(og);og.connect(pk);o.start(t);return o});
+ pk.connect(lp);lp.connect(g);g.connect(SWM);SWN[i]={os,g};
+ const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.add('on')}
+function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.currentTime;try{n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(n.g.gain.value,t);n.g.gain.linearRampToValueAtTime(0,t+.18);n.os.forEach(o=>o.stop(t+.22))}catch(e){}
+ const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.remove('on')}
+const swAll=()=>Object.keys(SWN).forEach(swOff);
+const SWP={};
+const swAt=(x,y)=>{const e=document.elementFromPoint(x,y),k=e&&e.closest?e.closest('.swk'):null;return k?k.dataset.i:null};
+document.addEventListener('pointerdown',e=>{const k=e.target.closest&&e.target.closest('.swk');if(!k)return;SWP[e.pointerId]=k.dataset.i;swOn(k.dataset.i)});
+document.addEventListener('pointermove',e=>{if(!(e.pointerId in SWP))return;const i=swAt(e.clientX,e.clientY);if(i!==null&&i!==SWP[e.pointerId]){swOff(SWP[e.pointerId]);SWP[e.pointerId]=i;swOn(i)}});
+const swUp=e=>{if(e.pointerId in SWP){swOff(SWP[e.pointerId]);delete SWP[e.pointerId]}};
+document.addEventListener('pointerup',swUp);document.addEventListener('pointercancel',swUp);
+addEventListener('blur',swAll);addEventListener('hashchange',swAll);document.addEventListener('visibilitychange',swAll);
+document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||!$('#swa'))return;const t=e.target;if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;const i=SWKEYS[e.key.toLowerCase()];if(i!==undefined)swOn(i)});
+document.addEventListener('keyup',e=>{const i=SWKEYS[e.key.toLowerCase()];if(i!==undefined)swOff(i)});
+
 // ===== Public pages =====
 function home(){return `<section class="hero" id="home"><div><h3 style="color:var(--gd)">Welcome to Swaralay Music Academy</h3><h1>Where Music Becomes a Journey</h1><p class="sub">Learn Light Vocal Music and Semi-Classical Music with structured guidance, practice and personal attention.</p><p class="sub" style="font-family:'Tiro Devanagari Marathi',Georgia,serif;color:var(--mr)">सुगम संगीत व उपशास्त्रीय संगीतावर आधारित</p><div class="row"><a class="btn" href="#portal">${LOG?'My Dashboard':'Member Login'}</a></div></div>
-<div class="stage"><div class="scene" id="sc"><div class="ring"></div><div class="ring r2"></div><div class="disc"></div><div class="mic"><svg viewBox="0 0 100 270"><defs><radialGradient id="tg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffc04d"/><stop offset="1" stop-color="#e8821e"/></radialGradient></defs><rect x="44" y="8" width="12" height="170" rx="5" fill="#7a1019"/><g stroke="#ffe0a0" stroke-width="3" stroke-linecap="round"><path d="M38 24h12M62 38h-12M38 52h12M62 66h-12"/></g><ellipse cx="50" cy="210" rx="44" ry="56" fill="url(#tg)"/><circle cx="50" cy="205" r="11" fill="#3a0a10"/><rect x="34" y="236" width="32" height="5" rx="2" fill="#ffe0a0"/><g stroke="#ffe0a0" stroke-opacity=".9"><path d="M47 14V238M50 14V238M53 14V238"/></g></svg></div><div class="keys">${'<u></u>'.repeat(8)}</div><span class="n" style="top:4%;left:10%">♪</span><span class="n" style="top:18%;right:4%;animation-delay:-2s">♫</span><span class="n" style="bottom:12%;left:2%;animation-delay:-4s">♩</span><div class="glass" style="top:36%;left:-2%">🎙 Riyaz</div><div class="glass" style="top:46%;right:-3%">🎹 Swar</div></div><div class="wave" style="position:absolute;bottom:2%;left:30%">${'<b></b>'.repeat(9).replace(/<b>/g,()=>`<b style="animation-delay:-${Math.random().toFixed(2)}s">`)}</div></div></section>
+<div class="stage"><div class="scene" id="sc"><div class="ring"></div><div class="ring r2"></div><div class="disc"></div><div class="mic"><svg viewBox="0 0 100 270"><defs><radialGradient id="tg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffc04d"/><stop offset="1" stop-color="#e8821e"/></radialGradient></defs><rect x="44" y="8" width="12" height="170" rx="5" fill="#7a1019"/><g stroke="#ffe0a0" stroke-width="3" stroke-linecap="round"><path d="M38 24h12M62 38h-12M38 52h12M62 66h-12"/></g><ellipse cx="50" cy="210" rx="44" ry="56" fill="url(#tg)"/><circle cx="50" cy="205" r="11" fill="#3a0a10"/><rect x="34" y="236" width="32" height="5" rx="2" fill="#ffe0a0"/><g stroke="#ffe0a0" stroke-opacity=".9"><path d="M47 14V238M50 14V238M53 14V238"/></g></svg></div>${swKeys()}<span class="n" style="top:4%;left:10%">♪</span><span class="n" style="top:18%;right:4%;animation-delay:-2s">♫</span><span class="n" style="bottom:12%;left:2%;animation-delay:-4s">♩</span><div class="glass" style="top:36%;left:-2%">🎙 Riyaz</div><div class="glass" style="top:46%;right:-3%">🎹 Swar</div></div><div class="wave" style="position:absolute;bottom:-9%;left:30%">${'<b></b>'.repeat(9).replace(/<b>/g,()=>`<b style="animation-delay:-${Math.random().toFixed(2)}s">`)}</div></div></section>
 <section id="about"><div class="split"><div><h2>About Swaralay</h2><p>Swaralay in Nashik focuses on Light Vocal and Semi-Classical music. Lessons are structured, singing is practical, and every member gets individual guidance to build performance confidence.</p><div class="tl"><p><b>Foundation:</b> voice, swar and rhythm basics</p><p><b>Repertoire:</b> light and semi-classical compositions</p><p><b>Stage:</b> recitals and academy events</p></div></div><figure class="pframe"><i class="co tl"></i><i class="co tr"></i><i class="co bl"></i><i class="co br"></i><img src="abouts.jpeg" alt="Swaralay Music Academy admissions poster: Sugam Sangeet, harmonium, tabla and vocal classes" loading="lazy"><figcaption>॥ सुरांची साधना… संस्कारांची जोडणी… ॥<small>Tap the poster to enlarge</small></figcaption></figure></div></section>
 <section id="courses"><h2>Courses</h2><div class="grid">${courses.map(c=>`<div class="card"><div class="ic">${c[0]}</div><h3>${c[1]}</h3><p>${c[2]}</p><span class="tag">${c[3]}</span><span class="tag">${c[4]}</span></div>`).join('')}</div><div style="text-align:center;margin-top:28px"><a class="btn" href="${waLink('Hello Swaralay Music Academy, I would like to enquire about your courses.')}" target="_blank" rel="noopener">Enquire</a></div></section>
 <section id="gallery"><h2>Gallery</h2><div class="chips" id="chips"></div><div class="gal" id="gal"><p class="sub">Loading photos...</p></div></section>
@@ -510,7 +560,7 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('[data-act]');if(b)adminAct(b)});
 document.addEventListener('change',e=>{if(e.target.id=='am'){if(e.target.value=='__lo'){admFlag(0);if(sb)sb.auth.signOut();location.hash='#home'}else showA(e.target.value)}});
 const T=e=>e.target.closest?e.target:document.body;
-document.addEventListener('mousemove',e=>{if(matchMedia('(pointer:coarse)').matches)return;const c=T(e).closest('.card,.gal img');if(c&&!c.matches('.tw,form,#lg,.nt')){const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(8px)`}const st=T(e).closest('.stage'),sc=$('#sc');if(st&&sc){const r=st.getBoundingClientRect();sc.style.transform=`rotateY(${((e.clientX-r.left)/r.width-.5)*34}deg) rotateX(${-((e.clientY-r.top)/r.height-.5)*34}deg)`}});
+document.addEventListener('mousemove',e=>{if(matchMedia('(pointer:coarse)').matches)return;const c=T(e).closest('.card,.gal img');if(c&&!c.matches('.tw,form,#lg,.nt')){const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(8px)`}const st=T(e).closest('.stage'),sc=$('#sc');if(st&&sc&&T(e).closest('.swk')){sc.style.transform='';return}if(st&&sc){const r=st.getBoundingClientRect();sc.style.transform=`rotateY(${((e.clientX-r.left)/r.width-.5)*34}deg) rotateX(${-((e.clientY-r.top)/r.height-.5)*34}deg)`}});
 document.addEventListener('mouseout',e=>{const c=T(e).closest('.card,.gal img');if(c&&!c.contains(e.relatedTarget))c.style.transform='';const st=T(e).closest('.stage'),sc=$('#sc');if(st&&sc&&!st.contains(e.relatedTarget))sc.style.transform=''});
 
 $('#burger').onclick=()=>$('#links').classList.toggle('on');
