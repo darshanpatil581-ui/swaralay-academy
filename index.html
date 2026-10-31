@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v28 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v29 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -276,7 +276,7 @@ function initJoin(){
     if(ex)throw new Error('This mobile number is already registered. Please use Member Login.');
    }else if(r.error)throw r.error;
    else{if(!r.data.session)throw new Error('Registration is not fully set up yet. Please contact the academy.');uid=r.data.user.id}
-   await Q(sb.from('students').insert({user_id:uid,full_name:n,whatsapp:ph,dob:dob,class_format:$('#cf').value,track:$('#tr').value}).select('id').single());
+   await Q(sb.from('students').insert({user_id:uid,full_name:n,whatsapp:ph,dob:dob,class_format:$('#cf').value,track:$('#tr').value}));
    $('#ok').classList.add('on');b.classList.add('hide');
    await sb.auth.signOut();
   }catch(err){fe.textContent=err.message||'Something went wrong. Please try again.';b.disabled=false;b.textContent='Submit registration'}
