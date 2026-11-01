@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v38 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v39 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -295,7 +295,6 @@ const TAAL={
  Bhajani:{n:8,v:[4,4],k:{0:'x',4:'k'},b:[['Dhin'],['Na','Dhin'],[null,'Dhin'],['Na'],['Tin'],['Na','Tin'],[null,'Tin'],['Na']]},
  Kerva:{n:8,v:[4,4],k:{0:'x',4:'k'},b:['Dha','Ge','Na','Ti','Na','Ka','Dhi','Na']},
  Dadra:{n:6,v:[3,3],k:{0:'x',3:'k'},b:['Dha','Dhi','Na','Dha','Ti','Na']},
- Jhaptaal:{n:10,v:[2,3,2,3],k:{0:'x',2:'t',5:'k',7:'t'},b:['Dhi','Na','Dhi','Dhi','Na','Ti','Na','Dhi','Dhi','Na']},
  Teental:{n:16,v:[4,4,4,4],k:{0:'x',4:'t',8:'k',12:'t'},b:['Dha','Dhin','Dhin','Dha','Dha','Dhin','Dhin','Dha','Dha','Tin','Tin','Ta','Ta','Dhin','Dhin','Dha']}};
 const TL={name:'Teental',bpm:90,click:false,run:false,beat:0,next:0,timer:null,q:[],raf:0,taps:[]};
 function swDots(){const T=TAAL[TL.name];let h='',i=0;T.v.forEach(len=>{h+='<span class="swv">';for(let k=0;k<len;k++,i++){const kd=T.k[i]||'n';
@@ -315,7 +314,7 @@ const TABLA={"Dha":["SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAA
 // measured dayan pitch (Hz) of each recorded stroke; every stroke is re-tuned so the tabla sits exactly on the chosen Sa
 const TF0={Dha:[262,262],Dhin:[262,262],Dhit:[255,255],Na:[262,222.5],Ta:[262],Tin:[222.5,289],Tun:[240.5]};
 // one fixed recording per bol (no random variation) and loudness evened out so every bol has the same strength in every taal
-const TIX={Na:1},TGN={Dha:.7,Dhin:.76,Dhit:1,Na:.97,Ta:1.5,Tin:1.05,Ti:1.2,Ge:.55,Ke:1.4,Tun:.9},TBUF={};let TBLOAD=null;
+const TIX={Na:1},TGN={Dha:.7,Dhin:.76,Dhit:1,Na:.97,Ta:1.2,Tin:1.05,Ti:1,Ge:.55,Ke:1.2,Tun:.9},TBUF={};let TBLOAD=null;
 function tabLoad(a){if(TBLOAD)return TBLOAD;TBLOAD=Promise.all(Object.keys(TABLA).map(k=>Promise.all(TABLA[k].map(b64=>{const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Promise((ok,no)=>{const r=a.decodeAudioData(u.buffer,ok,no);if(r&&r.catch)r.catch(no)}).catch(()=>null)})).then(v=>{TBUF[k]=v.filter(Boolean)}))).catch(()=>{});return TBLOAD}
 // Real tabla strokes (recorded samples, MIT licence - credit and licence at the top of this file); falls back to synthesis if decoding fails
 function tbol(a,t,bol,kind,vol){const k=({Dhi:'Dhit',Ka:'Ke'})[bol]||bol,arr=TBUF[k];
@@ -324,7 +323,7 @@ function tbol(a,t,bol,kind,vol){const k=({Dhi:'Dhit',Ka:'Ke'})[bol]||bol,arr=TBU
 function tlBeat(a,beat,t,spb){const T=TAAL[TL.name],kind=T.k[beat]||'n',vol={x:1,t:.85,n:.7,k:.55}[kind];
  let b=T.b[beat];if(!Array.isArray(b))b=[b];const sub=spb/b.length;b.forEach((bl,j)=>{if(bl)tbol(a,t+j*sub,bl,kind,vol)})}
 function tlTick(){const a=SWAC;if(!a||!TL.run)return;const n=TAAL[TL.name].n;
- while(TL.next<a.currentTime+.15){const spb=60/TL.bpm;tlBeat(a,TL.beat,TL.next,spb);TL.q.push({t:TL.next,b:TL.beat});TL.next+=spb;TL.beat=(TL.beat+1)%n}}
+ while(TL.next<a.currentTime+.3){const spb=60/TL.bpm;tlBeat(a,TL.beat,TL.next,spb);TL.q.push({t:TL.next,b:TL.beat});TL.next+=spb;TL.beat=(TL.beat+1)%n}}
 function tlDraw(){if(!TL.run)return;const a=SWAC;while(TL.q.length&&TL.q[0].t<=a.currentTime){const x=TL.q.shift();document.querySelectorAll('#swdots i').forEach(d=>d.classList.toggle('cur',+d.dataset.b===x.b))}TL.raf=requestAnimationFrame(tlDraw)}
 function tlUI(){const p=$('#swplay');if(p)p.textContent=TL.run?'■ Stop':'▶ Play';const g=document.querySelector('.glass[data-p="r"]');if(g)g.classList.toggle('run',TL.run);document.querySelectorAll('#swdots i').forEach(d=>d.classList.remove('cur'));swLbl()}
 function tlStart(){const a=swAudio();if(!a||TL.run||TL.load)return;TL.load=1;const b=$('#swplay');if(b)b.textContent='Loading…';tabLoad(a).then(()=>{TL.load=0;if(TL.run)return;TL.run=true;TL.beat=0;TL.q=[];TL.next=a.currentTime+.1;tlTick();TL.timer=setInterval(tlTick,25);TL.raf=requestAnimationFrame(tlDraw);tlUI()})}
@@ -334,17 +333,19 @@ function tlSetBpm(v){TL.bpm=Math.max(40,Math.min(240,Math.round(v)));swLbl();con
 
 // ----- harmonium sound -----
 let SWAC=null,SWM=null;const SWN={};
-function swAudio(){try{if(!SWAC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SWAC=new C();SWM=SWAC.createGain();SWM.gain.value=swGain();const cp=SWAC.createDynamicsCompressor();SWM.connect(cp);cp.connect(SWAC.destination)}if(SWAC.state==='suspended')SWAC.resume();return SWAC}catch(e){return null}}
+function swMaster(a){const m=a.createGain();m.gain.value=swGain();let out=m;try{const cp=a.createDynamicsCompressor();if(cp.threshold){cp.threshold.value=-22;cp.knee.value=12;cp.ratio.value=6;cp.attack.value=.006;cp.release.value=.25}m.connect(cp);out=cp;if(a.createWaveShaper){const ws=a.createWaveShaper(),c=new Float32Array(2048);for(let i=0;i<2048;i++){const x=i/1023.5-1;c[i]=Math.tanh(x*1.1)/Math.tanh(1.1)*.9}ws.curve=c;cp.connect(ws);out=ws}}catch(e){}out.connect(a.destination);return m}
+function swAudio(){try{if(!SWAC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SWAC=new C();SWM=swMaster(SWAC)}if(SWAC.state==='suspended')SWAC.resume();return SWAC}catch(e){return null}}
 const SWB={};
-function tanBuf(a,f){const key=Math.round(f*10);if(SWB[key])return SWB[key];
- const sr=a.sampleRate,len=Math.floor(sr*6),b=a.createBuffer(1,len,sr),d=b.getChannelData(0),H=Math.min(36,Math.floor(sr*.45/f)),BL=64;
- for(let h=1;h<=H;h++){const th=2*Math.PI*f*h/sr,cw=Math.cos(th),sw=Math.sin(th);let sn=0,cs=1;
-  // low partials ring long; the upper partials swell after the pluck and stay: the thread (jivari) buzz that makes a tanpura a tanpura
-  const base=1/Math.pow(h,.55),tau=6/(1+.04*h),jv=h>=3?3.2*Math.exp(-Math.pow((h-9)/9,2)):0,tc=.3+.045*h,wd=.5+.04*h;
-  for(let n=0;n<len;n+=BL){const t=n/sr,dt=t-tc,amp=base*Math.exp(-t/tau)*(1+jv*Math.exp(-dt*dt/wd))*Math.min(1,t/.018),e=Math.min(n+BL,len);
-   for(let k=n;k<e;k++){d[k]+=amp*sn;const ns=sn*cw+cs*sw;cs=cs*cw-sn*sw;sn=ns}}}
- let m=0;for(let k=0;k<len;k+=5)m=Math.max(m,Math.abs(d[k]));const g=.55/(m||1);for(let k=0;k<len;k++)d[k]*=g;
- return SWB[key]=b}
+// Tanpura string, synthesised on the audio thread (OfflineAudioContext) so the page never stalls and the tabla never stutters.
+// Soft, mellow string: strong fundamental, gently swelling mid partials (the jivari shimmer), smooth attack, two slightly detuned strings for warmth.
+function tanMake(f){return new Promise(ok=>{const key=Math.round(f*10);if(SWB[key])return ok(SWB[key]);
+ const sr=44100,len=sr*6,oc=new OfflineAudioContext(1,len,sr),H=Math.min(26,Math.floor(sr*.45/f)),N=300,lp=oc.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3200;lp.Q.value=.5;lp.connect(oc.destination);
+ for(const det of [1,1.0011])for(let h=1;h<=H;h++){
+  const base=(h<=3?1/h:1.15/Math.pow(h,1.25)),tau=7/(1+.09*h),jv=(h>=3&&h<=16)?1.7*Math.exp(-Math.pow((h-8)/5,2)):0,tc=.35+.05*h,wd=.7+.05*h,c=new Float32Array(N);
+  for(let n=0;n<N;n++){const t=n*6/(N-1),dt=t-tc,at=Math.min(1,t/.03);c[n]=.05*base*Math.exp(-t/tau)*(1+jv*Math.exp(-dt*dt/wd))*at*at*(3-2*at)}
+  const o=oc.createOscillator(),g=oc.createGain();o.frequency.value=f*det*h;g.gain.setValueCurveAtTime(c,0,6);o.connect(g);g.connect(lp);o.start(0);o.stop(6)}
+ oc.startRendering().then(b=>{const d=b.getChannelData(0);let m=0;for(let k=0;k<d.length;k+=5)m=Math.max(m,Math.abs(d[k]));const g=.5/(m||1);for(let k=0;k<d.length;k++)d[k]*=g;SWB[key]=b;ok(b)}).catch(()=>ok(null))})}
+const tanBuf=(a,f)=>SWB[Math.round(f*10)]||null;
 // Harmonium voice for the keys: reeds keep sounding while the key is held (no decay); a quick tap still rings for about a second and then fades softly
 function swOn(i){const a=swAudio();if(!a||SWN[i])return;const f=swHz(swSemi(i)),t=a.currentTime;
  const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.34,t+.07);
@@ -360,14 +361,14 @@ function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.cur
 const TD={run:false,timer:null,next:0,i:0,g:null,srcs:[]};
 const tdStr=()=>{const sa=swHz(0);return[sa*Math.pow(2,7/12)/2,sa,sa,sa/2]};
 function tdTick(){const a=SWAC;if(!a||!TD.run)return;const st=tdStr();
- while(TD.next<a.currentTime+.4){const k=TD.i%4,f=st[k],s=a.createBufferSource(),g=a.createGain();s.buffer=tanBuf(a,f);g.gain.value=(k===3?.85:1)*(.85+Math.random()*.15);s.connect(g);g.connect(TD.g);s.start(TD.next);TD.srcs.push([s,TD.next]);
+ while(TD.next<a.currentTime+.4){const k=TD.i%4,f=st[k],s=a.createBufferSource(),g=a.createGain();const bf=tanBuf(a,f);if(!bf){TD.next+=.1;break}s.buffer=bf;g.gain.value=(k===3?.85:1)*(.85+Math.random()*.15);s.connect(g);g.connect(TD.g);s.start(TD.next);TD.srcs.push([s,TD.next]);
   TD.next+=k===3?1.07:.68;TD.i++}
  TD.srcs=TD.srcs.filter(x=>x[1]>a.currentTime-5)}
 function tdUI(){const b=$('#swtd');if(b){b.textContent='🪕 Tanpura · '+(TD.run?'On':'Off');b.classList.toggle('on',TD.run)}const g=document.querySelector('.glass[data-p="s"]');if(g)g.classList.toggle('run',TD.run)}
-function tdStop(fast){if(!TD.run&&!TD.g){tdUI();return}TD.run=false;clearInterval(TD.timer);const a=SWAC;
+function tdStop(fast){TD.tok=(TD.tok||0)+1;if(!TD.run&&!TD.g){tdUI();return}TD.run=false;clearInterval(TD.timer);const a=SWAC;
  if(a&&TD.g){const g=TD.g,t=a.currentTime,r=fast?.2:.9;try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+r);TD.srcs.forEach(x=>{try{x[0].stop(t+r+.05)}catch(e){}})}catch(e){}}
  TD.g=null;TD.srcs=[];tdUI()}
-function tdStart(){const a=swAudio();if(!a)return;tdStop(true);TD.g=a.createGain();TD.g.gain.value=.5;TD.g.connect(SWM);TD.run=true;TD.i=0;TD.next=a.currentTime+.2;tdTick();TD.timer=setInterval(tdTick,100);tdUI()}
+function tdStart(){const a=swAudio();if(!a)return;tdStop(true);const tok=TD.tok=(TD.tok||0)+1;Promise.all(tdStr().map(f=>tanMake(f))).then(()=>{if(TD.tok!==tok||TD.run)return;TD.g=a.createGain();TD.g.gain.value=.5;TD.g.connect(SWM);TD.run=true;TD.i=0;TD.next=a.currentTime+.15;tdTick();TD.timer=setInterval(tdTick,100);tdUI()})}
 const swAll=()=>Object.keys(SWN).forEach(swOff);
 const SWP={};
 const swAt=(x,y)=>{const e=document.elementFromPoint(x,y),k=e&&e.closest?e.closest('.swk'):null;return k?k.dataset.i:null};
