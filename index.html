@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- build: admin-login-v33 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+<!DOCTYPE html><!-- build: admin-login-v34 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -25,10 +25,10 @@ nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;ali
 .btn.s{padding:7px 13px;font-size:.88rem;border-radius:10px}
 #burger{display:none;background:none;border:1px solid var(--ln);border-radius:10px;padding:8px 12px;color:var(--ink)}
 section{padding:72px 5%;max-width:1180px;margin:auto}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;min-height:78vh}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;min-height:78vh}
 .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);color:var(--mr)}
 .sub{color:var(--mut);max-width:52ch;font-size:1.1rem}.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-.stage{position:relative;aspect-ratio:1;max-width:460px;margin:auto;width:100%;perspective:900px}
+.stagew{width:100%;max-width:600px;margin:auto}.stage{position:relative;aspect-ratio:1;max-width:600px;margin:auto;width:100%;perspective:900px}
 .disc{background:repeating-conic-gradient(#a31621 0 9deg,#d64045 9deg 18deg,#e8a317 18deg 27deg)!important}.disc:before{content:"";position:absolute;inset:12%;border-radius:50%;border:4px dotted #ffe0a0}.disc:after{background:#fffdf5;border:4px double var(--gd)!important}
 .mic{left:39%!important;top:5%!important;width:22%!important}.mic svg{width:100%;display:block}
 .card{border:1px solid var(--gd);box-shadow:inset 0 0 0 4px var(--card),inset 0 0 0 5px #e8a31766,var(--sh)}.card:hover{box-shadow:inset 0 0 0 4px var(--card),inset 0 0 0 5px #e8a317,0 18px 28px -8px #a3162144,0 44px 60px -26px #a3162166}
@@ -46,7 +46,7 @@ nav{border-bottom:4px double var(--gd);background:#F7F7F7}.links a{display:flex;
 .swa{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:scale(1.08);filter:drop-shadow(0 4px 4px #0006);-webkit-user-select:none;user-select:none;pointer-events:none}
 .swk{pointer-events:auto}
 .swbd{fill:#4a0810;stroke:#e8a317;stroke-width:.3}.swa .swbt{font:700 3px 'Tiro Devanagari Marathi',Georgia,serif;fill:#ffe9c9;text-anchor:middle;pointer-events:none}
-.swov .glass{pointer-events:auto;z-index:3}button.glass{cursor:pointer;line-height:1.3;text-align:center;color:var(--mr)}button.glass:hover{background:#fff}.glass.on,button.glass.on:hover{background:var(--mr);color:#fff;border-color:var(--mr)}
+button.glass{cursor:pointer;line-height:1.3;text-align:center;color:var(--mr)}button.glass:hover{background:#fff}.glass.on,button.glass.on:hover{background:var(--mr);color:#fff;border-color:var(--mr)}
 .glass.run:after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#1f8a70;margin-left:8px;animation:swg 1s infinite}
 .swpan{display:none;position:absolute;left:3%;right:3%;top:0;padding:8px 10px 8px;border-radius:18px;background:#fff8e8f2;border:1px solid #e8a317;box-shadow:0 14px 30px -8px #5e0a13aa,inset 0 0 0 3px #fdf1ee;pointer-events:auto;backdrop-filter:blur(6px);color:var(--ink);font-size:12px;line-height:1.2;max-height:58%;overflow:auto}
 .swpan.on{display:block;animation:pop .25s}
@@ -65,8 +65,8 @@ nav{border-bottom:4px double var(--gd);background:#F7F7F7}.links a{display:flex;
 .swk.w .kb{fill:url(#swW);stroke:#b8780f;stroke-width:.3}.swk.b .kb{fill:url(#swB);stroke:#12030a;stroke-width:.3}
 .swk.w:hover .kb{fill:#fff1cf}.swk.b:hover .kb{fill:#5c1822}
 .swk.on .kb{fill:#ffc24a!important}.swk.b.on .kb{fill:#d64045!important}.swk.on{transform:scale(.965)}
-.swk text{font:700 3.3px 'Tiro Devanagari Marathi',Georgia,serif;fill:#7a1019;text-anchor:middle;pointer-events:none}
-.swk.b text{fill:#ffd27a;font-size:2.3px}.swk circle{fill:#7a1019;pointer-events:none}
+.swk text{font:700 4.2px 'Tiro Devanagari Marathi',Georgia,serif;fill:#7a1019;text-anchor:middle;pointer-events:none}
+.swk.b text{fill:#ffd27a;font-size:3px}.swk circle{fill:#7a1019;pointer-events:none}
 .swa .plate{fill:none;stroke:#e8a317;stroke-width:.35;stroke-opacity:.8;pointer-events:none}
 .swa .glow{animation:swg 3.2s ease-in-out infinite}@keyframes swg{50%{opacity:.35}}
 
@@ -164,7 +164,15 @@ html body,html body *{font-weight:700!important}
 .stars{display:inline-flex;gap:2px;color:#e8a317;font-size:1.2rem;letter-spacing:1px}.stars.in button{border:0;background:none;font-size:1.9rem;color:#d9c3a6;cursor:pointer;padding:0 2px}.stars.in button.on{color:#e8a317}
 .rv{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:22px}.rv .card{position:relative}.rv .q{position:absolute;right:14px;top:6px;font-size:3rem;color:#a3162122;font-family:Georgia,serif}
 #rvf{max-width:620px;margin:0 auto}#rvf textarea{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #ecc9b8;background:#fffdf8;color:var(--ink);font:inherit}
-@media(max-width:600px){.swov .glass[data-p="r"]{top:43%!important}}
+@media(max-width:600px){.swov .swbtn[data-p="r"]{top:43%!important}}
+
+.disc:before{display:none!important}
+.swbar{display:flex;gap:10px;align-items:stretch;margin-top:22px}
+.swbtn{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px 14px;border-radius:14px;border:1px solid var(--gd);background:#fff8e8;color:var(--mr);cursor:pointer;text-align:left;box-shadow:var(--sh);transition:background .15s}
+.swbtn small{font-size:.72rem;color:var(--mut);letter-spacing:.04em}.swbtn b{font-size:1.02rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.swbtn:hover{background:#fff}.swbtn.on{background:var(--mr);color:#fff;border-color:var(--mr)}.swbtn.on small{color:#ffd9d3}
+.swvl{display:flex;align-items:center;gap:4px;padding:0 10px;border-radius:14px;border:1px solid #ecc5be;background:#fdf1eecc}.swvl .swr{width:86px;flex:none}
+@media(max-width:600px){.swbar{gap:6px}.swbtn{padding:8px 10px}.swvl{padding:0 6px}.swvl .swr{width:52px}}
 </style></head><body>
 <div id="pub">
 <nav><a class="logo" href="#home" aria-label="Swaralay Music Academy home"><img class="header-logo" src="logo.jpeg" alt="Swaralay Music Academy logo"></a><button id="burger" aria-label="Menu">Menu</button>
@@ -279,29 +287,33 @@ function tbol(a,t,bol,kind,vol){
  if(day){mk(sa,sa,ring,.5*vol);mk(sa*2,sa*2,ring*.7,.22*vol);mk(sa*3,sa*3,ring*.5,.12*vol)}
  const ns=a.createBufferSource(),bp=a.createBiquadFilter(),ng=a.createGain();ns.buffer=tNoise(a);bp.type='bandpass';bp.frequency.value=low?900:2600;bp.Q.value=.8;
  ng.gain.setValueAtTime(.35*vol,t);ng.gain.exponentialRampToValueAtTime(.001,t+(/^(Na|Ta|Ti|Tu|Ke|Ka)$/.test(bol)?.05:.03));ns.connect(bp);bp.connect(ng);ng.connect(SWM);ns.start(t);ns.stop(t+.09)}
-function tclick(a,t,kind){const o=a.createOscillator(),g=a.createGain(),f={x:1760,t:1320,n:990,k:740}[kind],pk={x:.4,t:.3,n:.22,k:.14}[kind];o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(pk,t+.002);g.gain.exponentialRampToValueAtTime(.001,t+.06);o.connect(g);g.connect(SWM);o.start(t);o.stop(t+.08)}
 function tlBeat(a,beat,t,spb){const T=TAAL[TL.name],kind=T.k[beat]||'n',vol={x:1,t:.85,n:.7,k:.55}[kind];
- if(TL.click){tclick(a,t,kind);return}
  let b=T.b[beat];if(!Array.isArray(b))b=[b];const sub=spb/b.length;b.forEach((bl,j)=>{if(bl)tbol(a,t+j*sub,bl,kind,vol)})}
 function tlTick(){const a=SWAC;if(!a||!TL.run)return;const n=TAAL[TL.name].n;
  while(TL.next<a.currentTime+.15){const spb=60/TL.bpm;tlBeat(a,TL.beat,TL.next,spb);TL.q.push({t:TL.next,b:TL.beat});TL.next+=spb;TL.beat=(TL.beat+1)%n}}
 function tlDraw(){if(!TL.run)return;const a=SWAC;while(TL.q.length&&TL.q[0].t<=a.currentTime){const x=TL.q.shift();document.querySelectorAll('#swdots i').forEach(d=>d.classList.toggle('cur',+d.dataset.b===x.b))}TL.raf=requestAnimationFrame(tlDraw)}
-function tlUI(){const p=$('#swplay');if(p)p.textContent=TL.run?'■ Stop':'▶ Play';const g=document.querySelector('.glass[data-p="r"]');if(g)g.classList.toggle('run',TL.run);document.querySelectorAll('#swdots i').forEach(d=>d.classList.remove('cur'))}
+function tlUI(){const p=$('#swplay');if(p)p.textContent=TL.run?'■ Stop':'▶ Play';const g=document.querySelector('.swbtn[data-p="r"]');if(g)g.classList.toggle('run',TL.run);document.querySelectorAll('#swdots i').forEach(d=>d.classList.remove('cur'));swLbl()}
 function tlStart(){const a=swAudio();if(!a||TL.run)return;TL.run=true;TL.beat=0;TL.q=[];TL.next=a.currentTime+.1;tlTick();TL.timer=setInterval(tlTick,25);TL.raf=requestAnimationFrame(tlDraw);tlUI()}
 function tlStop(){TL.run=false;clearInterval(TL.timer);cancelAnimationFrame(TL.raf);TL.q=[];tlUI()}
-function tlSetBpm(v){TL.bpm=Math.max(40,Math.min(240,Math.round(v)));const s=$('#swbpm'),b=$('#swbv');if(s)s.value=TL.bpm;if(b)b.textContent=TL.bpm}
+function swLbl(){const a=$("#swbs"),b=$("#swbt");if(a)a.textContent=SWRT[SW.root]+(SW.minor?" Minor":" Major");if(b){b.textContent=TL.name+" · "+Math.round(TL.bpm);b.previousElementSibling.textContent=TL.run?"🥁 Taal ▶":"🥁 Taal"}}
+function tlSetBpm(v){TL.bpm=Math.max(40,Math.min(240,Math.round(v)));swLbl();const s=$('#swbpm'),b=$('#swbv');if(s)s.value=TL.bpm;if(b)b.textContent=TL.bpm}
 
 // ----- harmonium sound -----
 let SWAC=null,SWM=null;const SWN={};
 function swAudio(){try{if(!SWAC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SWAC=new C();SWM=SWAC.createGain();SWM.gain.value=swGain();const cp=SWAC.createDynamicsCompressor();SWM.connect(cp);cp.connect(SWAC.destination)}if(SWAC.state==='suspended')SWAC.resume();return SWAC}catch(e){return null}}
+const SWB={};
+function tanBuf(a,f){const key=Math.round(f*10);if(SWB[key])return SWB[key];
+ const sr=a.sampleRate,len=Math.floor(sr*4.5),b=a.createBuffer(1,len,sr),d=b.getChannelData(0),H=Math.min(22,Math.floor(sr*.45/f)),BL=64;
+ for(let h=1;h<=H;h++){const th=2*Math.PI*f*h/sr,cw=Math.cos(th),sw=Math.sin(th);let sn=0,cs=1;const base=1/Math.pow(h,.9),tau=3.4/(1+.16*h),jv=(h>=4&&h<=15)?2.2:0,tc=.45+.035*h;
+  for(let n=0;n<len;n+=BL){const t=n/sr,dt=t-tc,amp=base*Math.exp(-t/tau)*(1+jv*Math.exp(-dt*dt/.18))*Math.min(1,t/.004),e=Math.min(n+BL,len);
+   for(let k=n;k<e;k++){d[k]+=amp*sn;const ns=sn*cw+cs*sw;cs=cs*cw-sn*sw;sn=ns}}}
+ let m=0;for(let k=0;k<len;k+=5)m=Math.max(m,Math.abs(d[k]));const g=.55/(m||1);for(let k=0;k<len;k++)d[k]*=g;
+ return SWB[key]=b}
+// Tanpura pluck: long string ring; upper harmonics bloom after the pluck (the "jivari" buzz)
 function swOn(i){const a=swAudio();if(!a||SWN[i])return;const f=swHz(swSemi(i)),t=a.currentTime;
- const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.34,t+.07);g.gain.setTargetAtTime(.25,t+.07,.3);
- const pk=a.createBiquadFilter();pk.type='peaking';pk.frequency.value=1150;pk.gain.value=6;pk.Q.value=1.1;
- const lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;lp.Q.value=.6;
- const os=[['sawtooth',f,0,.5],['sawtooth',f,8,.42],['sawtooth',f/2,-4,.26],['square',f*2,3,.1]].map(([ty,fr,dt,gn])=>{const o=a.createOscillator(),og=a.createGain();o.type=ty;o.frequency.value=fr;o.detune.value=dt;og.gain.value=gn;o.connect(og);og.connect(pk);o.start(t);return o});
- pk.connect(lp);lp.connect(g);g.connect(SWM);SWN[i]={os,g};
+ const src=a.createBufferSource(),g=a.createGain();src.buffer=tanBuf(a,f);g.gain.setValueAtTime(.9,t);src.connect(g);g.connect(SWM);src.start(t);SWN[i]={src,g};
  const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.add('on')}
-function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.currentTime;try{n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(n.g.gain.value,t);n.g.gain.linearRampToValueAtTime(0,t+.18);n.os.forEach(o=>o.stop(t+.22))}catch(e){}
+function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.currentTime;try{n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(n.g.gain.value,t);n.g.gain.linearRampToValueAtTime(0,t+1.1);n.src.stop(t+1.15)}catch(e){}
  const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.remove('on')}
 const swAll=()=>Object.keys(SWN).forEach(swOff);
 const SWP={};
@@ -319,31 +331,30 @@ document.addEventListener('keyup',e=>{const i=swKeyId(e.key.toLowerCase());if(i>
 // ----- panels: scale (Swar), taal + tempo (Riyaz), volume -----
 function swUI(){
  const chip=(r,m)=>`<button type="button" class="swc${SW.root===r&&SW.minor===!!m?' on':''}" data-r="${r}" data-m="${m}">${SWRT[r]}</button>`;
- return `<div class="swov">${swKeys()}<button type="button" class="glass" data-p="r" style="top:36%;left:-2%">🎙 Riyaz ▾</button><button type="button" class="glass" data-p="s" style="top:46%;right:-3%">🎹 Swar ▾</button>
+ return `<div class="swov">${swKeys()}
 <div class="swpan" id="sws"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Choose scale (Sa)</b><div class="swg"><span class="swl">Major</span>${SWRT.map((_,r)=>chip(r,0)).join('')}<span class="swl">Minor</span>${SWRT.map((_,r)=>chip(r,1)).join('')}</div></div>
-<div class="swpan" id="swr"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Riyaz · Taal</b><div class="swrow">${Object.keys(TAAL).map(n=>`<button type="button" class="swc${n===TL.name?' on':''}" data-tl="${n}">${n}</button>`).join('')}</div><div class="swrow" id="swdots">${swDots()}</div><div class="swrow"><button type="button" class="swc sm" data-bp="-5" aria-label="Slower">−</button><input type="range" class="swr" id="swbpm" min="40" max="240" value="${TL.bpm}" aria-label="Tempo"><button type="button" class="swc sm" data-bp="5" aria-label="Faster">+</button><span class="swb"><b id="swbv">${TL.bpm}</b> BPM</span></div><div class="swrow"><button type="button" class="swc go" id="swplay">${TL.run?'■ Stop':'▶ Play'}</button><button type="button" class="swc" id="swtap">Tap tempo</button><button type="button" class="swc${TL.click?' on':''}" id="swmode">${TL.click?'Click':'Theka'}</button></div></div>
-<div class="swvol"><button type="button" class="swmu" id="swmu" aria-label="Mute">${SW.mute?'🔇':'🔊'}</button><input type="range" class="swr" id="swvol" min="0" max="100" value="${SW.vol}" aria-label="Volume"></div></div>`}
-function swPanel(w){const ids={s:'sws',r:'swr'};Object.keys(ids).forEach(k=>{const el=document.getElementById(ids[k]),on=w===k&&el&&!el.classList.contains('on');if(el)el.classList.toggle('on',on);const b=document.querySelector('.glass[data-p="'+k+'"]');if(b)b.classList.toggle('on',on)})}
+<div class="swpan" id="swr"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Riyaz · Taal</b><div class="swrow">${Object.keys(TAAL).map(n=>`<button type="button" class="swc${n===TL.name?' on':''}" data-tl="${n}">${n}</button>`).join('')}</div><div class="swrow" id="swdots">${swDots()}</div><div class="swrow"><button type="button" class="swc sm" data-bp="-5" aria-label="Slower">−</button><input type="range" class="swr" id="swbpm" min="40" max="240" value="${TL.bpm}" aria-label="Tempo"><button type="button" class="swc sm" data-bp="5" aria-label="Faster">+</button><span class="swb"><b id="swbv">${TL.bpm}</b> BPM</span></div><div class="swrow"><button type="button" class="swc go" id="swplay">${TL.run?'■ Stop':'▶ Play'}</button><button type="button" class="swc" id="swtap">Tap tempo</button></div></div></div>`}
+function swBar(){return `<div class="swbar"><button type="button" class="swbtn" data-p="s"><small>🎹 Scale</small><b id="swbs">${SWRT[SW.root]+(SW.minor?" Minor":" Major")}</b></button><button type="button" class="swbtn" data-p="r"><small>🥁 Taal</small><b id="swbt">${TL.name} · ${Math.round(TL.bpm)}</b></button><div class="swvl"><button type="button" class="swmu" id="swmu" aria-label="Mute">${SW.mute?"🔇":"🔊"}</button><input type="range" class="swr" id="swvol" min="0" max="100" value="${SW.vol}" aria-label="Volume"></div></div>`}
+function swPanel(w){const ids={s:'sws',r:'swr'};Object.keys(ids).forEach(k=>{const el=document.getElementById(ids[k]),on=w===k&&el&&!el.classList.contains('on');if(el)el.classList.toggle('on',on);const b=document.querySelector('.swbtn[data-p="'+k+'"]');if(b)b.classList.toggle('on',on)})}
 function swSetScale(r,m){SW.root=r;SW.minor=m;swAll();Object.keys(SWP).forEach(k=>delete SWP[k]);const o=$('#swa');if(o)o.outerHTML=swKeys();
  document.querySelectorAll('#sws .swc').forEach(b=>b.classList.toggle('on',+b.dataset.r===r&&(b.dataset.m==='1')===m));
- swOn('0');setTimeout(()=>swOff('0'),450)}
+ swLbl();swOn('0');setTimeout(()=>swOff('0'),450)}
 function swVol(){if(SWM)SWM.gain.value=swGain();const m=$('#swmu');if(m)m.textContent=SW.mute?'🔇':'🔊'}
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
- const pb=t.closest('.glass[data-p]');if(pb){swPanel(pb.dataset.p);return}
+ const pb=t.closest('.swbtn[data-p]');if(pb){swPanel(pb.dataset.p);return}
  if(t.closest('.swx')){swPanel(null);return}
  const sc=t.closest('#sws .swc');if(sc){swSetScale(+sc.dataset.r,sc.dataset.m==='1');return}
- const tl=t.closest('[data-tl]');if(tl){TL.name=tl.dataset.tl;TL.beat=0;TL.q=[];if(TL.run)TL.next=SWAC.currentTime+.1;document.querySelectorAll('#swr [data-tl]').forEach(b=>b.classList.toggle('on',b===tl));$('#swdots').innerHTML=swDots();return}
+ const tl=t.closest('[data-tl]');if(tl){TL.name=tl.dataset.tl;TL.beat=0;TL.q=[];if(TL.run)TL.next=SWAC.currentTime+.1;document.querySelectorAll('#swr [data-tl]').forEach(b=>b.classList.toggle('on',b===tl));$('#swdots').innerHTML=swDots();swLbl();return}
  const bp=t.closest('[data-bp]');if(bp){tlSetBpm(TL.bpm+ +bp.dataset.bp);return}
  if(t.closest('#swplay')){TL.run?tlStop():tlStart();return}
- if(t.closest('#swmode')){TL.click=!TL.click;const b=$('#swmode');b.textContent=TL.click?'Click':'Theka';b.classList.toggle('on',TL.click);return}
  if(t.closest('#swtap')){const n=performance.now();if(TL.taps.length&&n-TL.taps[TL.taps.length-1]>2000)TL.taps=[];TL.taps.push(n);TL.taps=TL.taps.slice(-5);if(TL.taps.length>1){const d=(TL.taps[TL.taps.length-1]-TL.taps[0])/(TL.taps.length-1);tlSetBpm(60000/d)}return}
  if(t.closest('#swmu')){SW.mute=!SW.mute;swVol();return}
- if(!t.closest('.swpan,.swk,.swvol'))swPanel(null)});
+ if(!t.closest('.swpan,.swk,.swbar'))swPanel(null)});
 document.addEventListener('input',e=>{const t=e.target;if(t.id==='swvol'){SW.vol=+t.value;SW.mute=false;swVol()}else if(t.id==='swbpm')tlSetBpm(+t.value)});
 
 // ===== Public pages =====
 function home(){return `<section class="hero" id="home"><div><h3 style="color:var(--gd)">Welcome to Swaralay Music Academy</h3><h1>Where Music Becomes a Journey</h1><p class="sub">Learn Light Vocal Music and Semi-Classical Music with structured guidance, practice and personal attention.</p><p class="sub" style="font-family:'Tiro Devanagari Marathi',Georgia,serif;color:var(--mr)">सुगम संगीत व उपशास्त्रीय संगीतावर आधारित</p><div class="row"><a class="btn" href="#portal">${LOG?'My Dashboard':'Member Login'}</a></div></div>
-<div class="stage"><div class="scene" id="sc"><div class="ring"></div><div class="ring r2"></div><div class="disc"></div><div class="mic"><svg viewBox="0 0 100 270"><defs><radialGradient id="tg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffc04d"/><stop offset="1" stop-color="#e8821e"/></radialGradient></defs><rect x="44" y="8" width="12" height="170" rx="5" fill="#7a1019"/><g stroke="#ffe0a0" stroke-width="3" stroke-linecap="round"><path d="M38 24h12M62 38h-12M38 52h12M62 66h-12"/></g><ellipse cx="50" cy="210" rx="44" ry="56" fill="url(#tg)"/><circle cx="50" cy="205" r="11" fill="#3a0a10"/><rect x="34" y="236" width="32" height="5" rx="2" fill="#ffe0a0"/><g stroke="#ffe0a0" stroke-opacity=".9"><path d="M47 14V238M50 14V238M53 14V238"/></g></svg></div><span class="n" style="top:4%;left:10%">♪</span><span class="n" style="top:18%;right:4%;animation-delay:-2s">♫</span><span class="n" style="bottom:12%;left:2%;animation-delay:-4s">♩</span></div>${swUI()}<div class="wave" style="position:absolute;bottom:-9%;left:3%">${'<b></b>'.repeat(9).replace(/<b>/g,()=>`<b style="animation-delay:-${Math.random().toFixed(2)}s">`)}</div></div></section>
+<div class="stagew"><div class="stage"><div class="scene" id="sc"><div class="disc"></div><div class="mic"><svg viewBox="0 0 100 270"><defs><radialGradient id="tg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#ffc04d"/><stop offset="1" stop-color="#e8821e"/></radialGradient></defs><rect x="44" y="8" width="12" height="170" rx="5" fill="#7a1019"/><g stroke="#ffe0a0" stroke-width="3" stroke-linecap="round"><path d="M38 24h12M62 38h-12M38 52h12M62 66h-12"/></g><ellipse cx="50" cy="210" rx="44" ry="56" fill="url(#tg)"/><circle cx="50" cy="205" r="11" fill="#3a0a10"/><rect x="34" y="236" width="32" height="5" rx="2" fill="#ffe0a0"/><g stroke="#ffe0a0" stroke-opacity=".9"><path d="M47 14V238M50 14V238M53 14V238"/></g></svg></div></div>${swUI()}</div>${swBar()}</div></section>
 <section id="about"><div class="split"><div><h2>About Swaralay</h2><p>Swaralay in Nashik focuses on Light Vocal and Semi-Classical music. Lessons are structured, singing is practical, and every member gets individual guidance to build performance confidence.</p><div class="tl"><p><b>Foundation:</b> voice, swar and rhythm basics</p><p><b>Repertoire:</b> light and semi-classical compositions</p><p><b>Stage:</b> recitals and academy events</p></div></div><figure class="pframe"><i class="co tl"></i><i class="co tr"></i><i class="co bl"></i><i class="co br"></i><img src="abouts.jpeg" alt="Swaralay Music Academy admissions poster: Sugam Sangeet, harmonium, tabla and vocal classes" loading="lazy"><figcaption>॥ सुरांची साधना… संस्कारांची जोडणी… ॥<small>Tap the poster to enlarge</small></figcaption></figure></div></section>
 <section id="courses"><h2>Courses</h2><div class="grid">${courses.map(c=>`<div class="card"><div class="ic">${c[0]}</div><h3>${c[1]}</h3><p>${c[2]}</p><span class="tag">${c[3]}</span><span class="tag">${c[4]}</span></div>`).join('')}</div><div style="text-align:center;margin-top:28px"><a class="btn" href="${waLink('Hello Swaralay Music Academy, I would like to enquire about your courses.')}" target="_blank" rel="noopener">Enquire</a></div></section>
 <section id="gallery"><h2>Gallery</h2><div class="chips" id="chips"></div><div class="gal" id="gal"><p class="sub">Loading photos...</p></div></section>
