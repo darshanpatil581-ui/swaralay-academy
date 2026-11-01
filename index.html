@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v35 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v36 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -193,6 +193,7 @@ html body,html body *{font-weight:700!important}
 .swov .swr{accent-color:#e8a317}
 .swov .swv i{background:#9c4a54;color:#fff4dc}.swov .swv i.x{background:#d64045;color:#fff}.swov .swv i.t{background:#e8a317;color:#3a0a10}.swov .swv i.k{background:#fff4dc;border:1.5px solid #d64045;color:#a31621}.swov .swv i.cur{box-shadow:0 0 0 2px #fff,0 0 8px 2px #ffd27a}
 @media(max-width:600px){.swov .swpan{left:1%;right:1%;top:-24%;z-index:9}.swov .swc{font-size:12px}}
+.swov .swtd{display:block;width:100%;margin-top:8px;padding:8px;background:transparent;color:#ffd27a;border:1px solid #e8a317}.swov .swtd.on{background:#e8a317;color:#3a0a10}
 </style></head><body>
 <div id="pub">
 <nav><a class="logo" href="#home" aria-label="Swaralay Music Academy home"><img class="header-logo" src="logo.jpeg" alt="Swaralay Music Academy logo"></a><button id="burger" aria-label="Menu">Menu</button>
@@ -338,12 +339,29 @@ function tanBuf(a,f){const key=Math.round(f*10);if(SWB[key])return SWB[key];
    for(let k=n;k<e;k++){d[k]+=amp*sn;const ns=sn*cw+cs*sw;cs=cs*cw-sn*sw;sn=ns}}}
  let m=0;for(let k=0;k<len;k+=5)m=Math.max(m,Math.abs(d[k]));const g=.55/(m||1);for(let k=0;k<len;k++)d[k]*=g;
  return SWB[key]=b}
-// Tanpura pluck: long string ring; upper harmonics bloom after the pluck (the "jivari" buzz)
+// Harmonium voice for the keys: reeds keep sounding while the key is held (no decay); a quick tap still rings for about a second and then fades softly
 function swOn(i){const a=swAudio();if(!a||SWN[i])return;const f=swHz(swSemi(i)),t=a.currentTime;
- const src=a.createBufferSource(),g=a.createGain();src.buffer=tanBuf(a,f);g.gain.setValueAtTime(.9,t);src.connect(g);g.connect(SWM);src.start(t);SWN[i]={src,g};
+ const g=a.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.34,t+.07);
+ const pk=a.createBiquadFilter();pk.type='peaking';pk.frequency.value=1150;pk.gain.value=6;pk.Q.value=1.1;
+ const lp=a.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;lp.Q.value=.6;
+ const os=[['sawtooth',f,0,.5],['sawtooth',f,8,.42],['sawtooth',f/2,-4,.26],['square',f*2,3,.1]].map(([ty,fr,dt,gn])=>{const o=a.createOscillator(),og=a.createGain();o.type=ty;o.frequency.value=fr;o.detune.value=dt;og.gain.value=gn;o.connect(og);og.connect(pk);o.start(t);return o});
+ pk.connect(lp);lp.connect(g);g.connect(SWM);SWN[i]={os,g,t0:t};
  const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.add('on')}
-function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.currentTime;try{n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(n.g.gain.value,t);n.g.gain.linearRampToValueAtTime(0,t+1.1);n.src.stop(t+1.15)}catch(e){}
+function swOff(i){const n=SWN[i];if(!n)return;delete SWN[i];const a=SWAC,t=a.currentTime,d=Math.max(0,1.1-(t-n.t0)),r=.9;
+ try{n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(.34,t+d);n.g.gain.linearRampToValueAtTime(0,t+d+r);n.os.forEach(o=>o.stop(t+d+r+.05))}catch(e){}
  const el=document.querySelector('.swk[data-i="'+i+'"]');if(el)el.classList.remove('on')}
+// Tanpura drone: Pa - Sa - Sa - low Sa, repeated for as long as it is on; retuned whenever the scale changes
+const TD={run:false,timer:null,next:0,i:0,g:null,srcs:[]};
+const tdStr=()=>{const sa=swHz(0);return[sa*Math.pow(2,7/12)/2,sa,sa,sa/2]};
+function tdTick(){const a=SWAC;if(!a||!TD.run)return;const st=tdStr();
+ while(TD.next<a.currentTime+.4){const k=TD.i%4,f=st[k],s=a.createBufferSource(),g=a.createGain();s.buffer=tanBuf(a,f);g.gain.value=(k===3?.85:1)*(.85+Math.random()*.15);s.connect(g);g.connect(TD.g);s.start(TD.next);TD.srcs.push([s,TD.next]);
+  TD.next+=k===3?1.5:.95;TD.i++}
+ TD.srcs=TD.srcs.filter(x=>x[1]>a.currentTime-5)}
+function tdUI(){const b=$('#swtd');if(b){b.textContent='🪕 Tanpura · '+(TD.run?'On':'Off');b.classList.toggle('on',TD.run)}const g=document.querySelector('.glass[data-p="s"]');if(g)g.classList.toggle('run',TD.run)}
+function tdStop(fast){if(!TD.run&&!TD.g){tdUI();return}TD.run=false;clearInterval(TD.timer);const a=SWAC;
+ if(a&&TD.g){const g=TD.g,t=a.currentTime,r=fast?.2:.9;try{g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+r);TD.srcs.forEach(x=>{try{x[0].stop(t+r+.05)}catch(e){}})}catch(e){}}
+ TD.g=null;TD.srcs=[];tdUI()}
+function tdStart(){const a=swAudio();if(!a)return;tdStop(true);TD.g=a.createGain();TD.g.gain.value=.5;TD.g.connect(SWM);TD.run=true;TD.i=0;TD.next=a.currentTime+.2;tdTick();TD.timer=setInterval(tdTick,100);tdUI()}
 const swAll=()=>Object.keys(SWN).forEach(swOff);
 const SWP={};
 const swAt=(x,y)=>{const e=document.elementFromPoint(x,y),k=e&&e.closest?e.closest('.swk'):null;return k?k.dataset.i:null};
@@ -352,7 +370,7 @@ document.addEventListener('pointermove',e=>{if(!(e.pointerId in SWP))return;cons
 const swUp=e=>{if(e.pointerId in SWP){swOff(SWP[e.pointerId]);delete SWP[e.pointerId]}};
 document.addEventListener('pointerup',swUp);document.addEventListener('pointercancel',swUp);
 addEventListener('blur',swAll);document.addEventListener('visibilitychange',swAll);
-addEventListener('hashchange',()=>{swAll();tlStop()});
+addEventListener('hashchange',()=>{swAll();tlStop();tdStop(true)});
 function swKeyId(ch){const w='asdfghjk'.indexOf(ch);if(w>=0)return w;const bk={0:'w',1:'e',2:'r',3:'t',4:'y',5:'u',6:'i'},q=swL().b.findIndex(x=>bk[x[1]]===ch);return q>=0?8+q:-1}
 document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||!$('#swa'))return;const t=e.target;if(t&&/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))return;if(e.key==='Escape'){swPanel(null);return}const i=swKeyId(e.key.toLowerCase());if(i>=0)swOn(String(i))});
 document.addEventListener('keyup',e=>{const i=swKeyId(e.key.toLowerCase());if(i>=0)swOff(String(i))});
@@ -361,18 +379,19 @@ document.addEventListener('keyup',e=>{const i=swKeyId(e.key.toLowerCase());if(i>
 function swUI(){
  const chip=(r,m)=>`<button type="button" class="swc${SW.root===r&&SW.minor===!!m?' on':''}" data-r="${r}" data-m="${m}">${SWRT[r]}</button>`;
  return `<div class="swov">${swKeys()}<button type="button" class="glass" data-p="r" style="top:36%;left:-2%">🎙 Riyaz</button><button type="button" class="glass" data-p="s" style="top:46%;right:-3%">🎹 Swar</button>
-<div class="swpan${SW.minor?' m1':''}" id="sws"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Choose scale · Sa</b><div class="swtabs"><button type="button" class="swtab" data-tab="0">Major</button><button type="button" class="swtab" data-tab="1">Minor</button></div><div class="swg set0">${SWRT.map((_,r)=>chip(r,0)).join('')}</div><div class="swg set1">${SWRT.map((_,r)=>chip(r,1)).join('')}</div></div>
+<div class="swpan${SW.minor?' m1':''}" id="sws"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Choose scale · Sa</b><div class="swtabs"><button type="button" class="swtab" data-tab="0">Major</button><button type="button" class="swtab" data-tab="1">Minor</button></div><div class="swg set0">${SWRT.map((_,r)=>chip(r,0)).join('')}</div><div class="swg set1">${SWRT.map((_,r)=>chip(r,1)).join('')}</div><button type="button" class="swc swtd" id="swtd">🪕 Tanpura · ${TD.run?'On':'Off'}</button></div>
 <div class="swpan" id="swr"><button type="button" class="swx" aria-label="Close">×</button><b class="swt">Riyaz · Taal</b><div class="swrow">${Object.keys(TAAL).map(n=>`<button type="button" class="swc${n===TL.name?' on':''}" data-tl="${n}">${n}</button>`).join('')}</div><div class="swrow" id="swdots">${swDots()}</div><div class="swrow"><button type="button" class="swc sm" data-bp="-5" aria-label="Slower">−</button><input type="range" class="swr" id="swbpm" min="40" max="240" value="${TL.bpm}" aria-label="Tempo"><button type="button" class="swc sm" data-bp="5" aria-label="Faster">+</button><span class="swb"><b id="swbv">${TL.bpm}</b> BPM</span></div><div class="swrow"><button type="button" class="swc go" id="swplay">${TL.run?'■ Stop':'▶ Play'}</button><button type="button" class="swc" id="swtap">Tap tempo</button></div></div>
 <div class="swvol"><button type="button" class="swmu" id="swmu" aria-label="Mute">${SW.mute?'🔇':'🔊'}</button><input type="range" class="swr" id="swvol" min="0" max="100" value="${SW.vol}" aria-label="Volume"></div></div>`}
 function swPanel(w){const ids={s:'sws',r:'swr'};Object.keys(ids).forEach(k=>{const el=document.getElementById(ids[k]),on=w===k&&el&&!el.classList.contains('on');if(el)el.classList.toggle('on',on);const b=document.querySelector('.glass[data-p="'+k+'"]');if(b)b.classList.toggle('on',on)})}
 function swSetScale(r,m){SW.root=r;SW.minor=m;swAll();Object.keys(SWP).forEach(k=>delete SWP[k]);const o=$('#swa');if(o)o.outerHTML=swKeys();
  {const pn=$('#sws');if(pn)pn.classList.toggle('m1',m)}
  document.querySelectorAll('#sws .swc').forEach(b=>b.classList.toggle('on',+b.dataset.r===r&&(b.dataset.m==='1')===m));
- swLbl();swOn('0');setTimeout(()=>swOff('0'),450)}
+ swLbl();tdStart()}
 function swVol(){if(SWM)SWM.gain.value=swGain();const m=$('#swmu');if(m)m.textContent=SW.mute?'🔇':'🔊'}
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
  const pb=t.closest('.glass[data-p]');if(pb){swPanel(pb.dataset.p);return}
  if(t.closest('.swx')){swPanel(null);return}
+ if(t.closest('#swtd')){TD.run?tdStop():tdStart();return}
  const tb=t.closest('.swtab');if(tb){$('#sws').classList.toggle('m1',tb.dataset.tab==='1');return}
  const sc=t.closest('#sws .swc');if(sc){swSetScale(+sc.dataset.r,sc.dataset.m==='1');return}
  const tl=t.closest('[data-tl]');if(tl){TL.name=tl.dataset.tl;TL.beat=0;TL.q=[];if(TL.run)TL.next=SWAC.currentTime+.1;document.querySelectorAll('#swr [data-tl]').forEach(b=>b.classList.toggle('on',b===tl));$('#swdots').innerHTML=swDots();swLbl();return}
