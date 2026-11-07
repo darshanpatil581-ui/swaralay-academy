@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v49 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v50 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -465,39 +465,20 @@ function ytBtn(){const y=String(YOUTUBE_URL||'').trim(),ok=/^https?:\/\//i.test(
 function join(){const fee=+CFG.registration_fee;return `<section id="jn"><div class="split"><div class="jl"><div class="jhero"><svg class="jw a" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><svg class="jw b" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg><svg class="jw c" viewBox="0 0 24 24" style="fill:#fff" aria-hidden="true"><path d="M9 3v11.3A3.5 3.5 0 1 0 11 17.5V7.6l8-2V12.3A3.5 3.5 0 1 0 21 15.5V2z"/></svg><h2>Member Registration</h2><p>Begin your journey in Sugam Sangeet and Upshastriya Sangeet with Swaralay Music Academy.</p><div class="jfee"><small>One-time registration fee</small>${fee>0?inr(fee):'not set yet'}</div><p>Create your login with your mobile number. After you log in, the Payment button on your dashboard lets you pay the fee through the academy on WhatsApp. Your access starts after the academy approves your admission.</p><ol class="jsteps"><li><b class="sn">1</b><span>Fill in your details and create a password</span></li><li><b class="sn">2</b><span>Log in and tap Payment to pay through WhatsApp</span></li><li><b class="sn">3</b><span>Get approved and start learning</span></li></ol><p><small>Already registered? <a href="#portal">Member Login</a></small></p></div></div>
 <form class="card nt" id="rf" novalidate><div class="fh"><div class="bd"><svg viewBox="0 0 24 24"><path d="M12 14a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 0 0-7 0v6A3.5 3.5 0 0 0 12 14zm6-3.5a1 1 0 1 0-2 0 4 4 0 0 1-8 0 1 1 0 1 0-2 0 6 6 0 0 0 5 5.9V19H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-2.6a6 6 0 0 0 5-5.9z"/></svg></div><div><h3>Join Swaralay</h3><small>It takes only a minute</small></div></div><label>Full name</label><input id="fn" maxlength="100" autocomplete="name"><div class="err"></div>
 <label>WhatsApp mobile number</label><input id="ph" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel"><div class="err"></div>
-<label>Instrument</label><select id="ins"><option value="">Select instrument</option><option>Vocal</option><option>Harmonium</option><option>Flute</option></select><div class="err"></div>
+<label>Instrument</label><select id="ins"><option value="">Select instrument</option><option>Harmonium</option><option>Flute</option></select><div class="err"></div>
 <label>Class format</label><select id="cf"><option>Online</option><option>Offline</option></select>
 <label>Training type</label><select id="tr"><option value="Individual">Individual Training (1-Hour)</option><option value="Group">Group Training</option></select>
 <label>Create a password (at least 8 characters)</label><input id="pw" type="password" autocomplete="new-password"><div class="err"></div>
 <div class="err" id="fe" style="margin-top:8px"></div><button class="btn" id="sb2" style="margin-top:10px;width:100%">Submit registration</button>
-<div class="ok" id="ok"><b>Registration submitted successfully.</b><br>Status: Waiting for Admin Approval<br><small>Now log in with <a href="#portal">Member Login</a> and tap the Payment button on your dashboard to pay the fee through WhatsApp.</small></div></form></div><div class="card nt bcw" id="bcal" style="margin:22px auto 0;max-width:1100px;display:none"></div></section>`}
-async function bCalInit(){
- const box=$('#bcal');if(!box||!sb)return;let bt=[];
- try{bt=await Q(sb.from('batches').select('name,timing,start_date').eq('active',true).order('start_date',{ascending:true,nullsFirst:false}))}catch(e){return}
- if(!bt||!bt.length)return;box.style.display='';
- let cur=new Date();cur.setDate(1);
- const draw=()=>{
-  const y=cur.getFullYear(),m=cur.getMonth(),days=new Date(y,m+1,0).getDate(),first=new Date(y,m,1).getDay(),map={};
-  bt.forEach(b=>{if(b.start_date)(map[b.start_date]=map[b.start_date]||[]).push(b)});
-  let h='';['S','M','T','W','T','F','S'].forEach(d=>h+=`<span class="bch">${d}</span>`);
-  for(let i=0;i<first;i++)h+='<span style="background:none"></span>';
-  for(let d=1;d<=days;d++){const k=ymd(new Date(y,m,d)),e=map[k];h+=`<span class="${e?'bc-on':''}"${e?` title="${esc(e.map(b=>b.name+(b.timing?' - '+b.timing:'')).join(', '))}"`:''}>${d}</span>`}
-  const mon=cur.toLocaleString('en-IN',{month:'long',year:'numeric'});
-  const up=bt.filter(b=>b.start_date&&b.start_date>=ymd(new Date())).slice(0,6),other=bt.filter(b=>!b.start_date);
-  const li=x=>`<div class="bci"><b>${esc(x.name)}</b><small>${x.start_date?dt(x.start_date):'Date to be announced'}${x.timing?' · '+esc(x.timing):''}</small></div>`;
-  box.innerHTML=`<h3 style="margin:0 0 12px">Batch Calendar</h3><div class="bcg"><div><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><button class="btn s g" type="button" id="bcp" aria-label="Previous month">&lsaquo;</button><b>${mon}</b><button class="btn s g" type="button" id="bcn" aria-label="Next month">&rsaquo;</button></div><div class="cal">${h}</div></div><div><b>Upcoming batches</b>${up.length?up.map(li).join(''):'<p class="sub">No dated batches yet.</p>'}${other.length?'<b style="display:block;margin-top:12px">Other batches</b>'+other.map(li).join(''):''}</div></div>`;
-  $('#bcp').onclick=()=>{cur.setMonth(cur.getMonth()-1);draw()};$('#bcn').onclick=()=>{cur.setMonth(cur.getMonth()+1);draw()};
- };draw();
-}
+<div class="ok" id="ok"><b>Registration submitted successfully.</b><br>Status: Waiting for Admin Approval<br><small>Now log in with <a href="#portal">Member Login</a> and tap the Payment button on your dashboard to pay the fee through WhatsApp.</small></div></form></div></section>`}
 function initJoin(){
- bCalInit();
  $('#rf').onsubmit=async e=>{e.preventDefault();
   const bad=(id,c,m)=>{$(id).nextElementSibling.textContent=c?'':m;return !c};
   const n=$('#fn').value.trim(),ph=$('#ph').value.trim(),ins=$('#ins').value,pw=$('#pw').value,fe=$('#fe');fe.textContent='';
   let x=false;
   x=bad('#fn',n.length>=3,'Enter your full name.')|x;
   x=bad('#ph',/^[6-9]\d{9}$/.test(ph),'Enter a valid 10-digit Indian mobile number.')|x;
-  x=bad('#ins',['Vocal','Harmonium','Flute'].includes(ins),'Please select Vocal, Harmonium or Flute.')|x;
+  x=bad('#ins',ins==='Harmonium'||ins==='Flute','Please select Harmonium or Flute.')|x;
   x=bad('#pw',pw.length>=8,'Password must be at least 8 characters.')|x;
   if(x)return;
   const b=$('#sb2');b.disabled=true;b.textContent='Submitting...';
@@ -617,7 +598,7 @@ AVW.Admissions=async()=>{const[st,pay,bt]=await Promise.all([Q(sb.from('students
 AVW.Members=async()=>{
  const[st,bt]=await Promise.all([Q(sb.from('students').select('*,batches(name)').order('created_at',{ascending:false})),Q(sb.from('batches').select('*').order('name'))]);window._st=st;
  return `<div class="card nt" style="margin-bottom:18px"><h3 id="sft">Add member</h3><form id="sf1"><input type="hidden" id="sid"><div class="grid">
- <div><label>Full name</label><input id="s1" maxlength="100"></div><div><label>WhatsApp number</label><input id="s2" inputmode="numeric" maxlength="10"></div><div><label>Instrument</label><select id="s3"><option value="">Select instrument</option><option>Vocal</option><option>Harmonium</option><option>Flute</option></select></div>
+ <div><label>Full name</label><input id="s1" maxlength="100"></div><div><label>WhatsApp number</label><input id="s2" inputmode="numeric" maxlength="10"></div><div><label>Instrument</label><select id="s3"><option value="">Select instrument</option><option>Harmonium</option><option>Flute</option></select></div>
  <div><label>Class format</label><select id="s4"><option>Online</option><option>Offline</option></select></div><div><label>Track</label><select id="s5"><option value="Individual">Individual 1-Hour</option><option value="Group">Group</option></select></div>
  <div><label>Batch</label><select id="s6"><option value="">No batch</option>${bt.map(b=>`<option value="${b.id}">${esc(b.name)}</option>`).join('')}</select></div>
  <div><label>Monthly tuition fee (₹)</label><input id="s7" type="number" min="0" step="1" value="0"></div><div><label>Admission date</label><input id="s8" type="date"></div>
@@ -635,9 +616,15 @@ AVW.Payments=async()=>{const[pay,mem]=await Promise.all([Q(sb.from('payments').s
  <h3 style="margin-top:28px">All payments</h3>`+tbl(['Date','Member','Type','Amount','Status','Verified on'],pay.map(p=>[dt(p.submitted_at),esc(p.students?p.students.full_name:''),esc(p.type),inr(p.amount),pill(p.status),p.verified_at?dt(p.verified_at)+' '+tm(p.verified_at):'—']))
  +'<p class="sub"><small>WhatsApp payment confirmations are not sent yet; connect a WhatsApp provider to enable them.</small></p>'};
 
+window._bcm=new Date();window._bcm.setDate(1);
+function bcal(bt){const c=window._bcm,y=c.getFullYear(),m=c.getMonth(),days=new Date(y,m+1,0).getDate(),first=new Date(y,m,1).getDay(),map={};
+ bt.forEach(b=>{if(b.start_date)(map[b.start_date]=map[b.start_date]||[]).push(b.name)});
+ let h=['S','M','T','W','T','F','S'].map(d=>`<span class="bch">${d}</span>`).join('');for(let i=0;i<first;i++)h+='<span style="background:none"></span>';
+ for(let d=1;d<=days;d++){const e=map[ymd(new Date(y,m,d))];h+=`<span class="${e?'bc-on':''}"${e?` title="${esc(e.join(', '))}"`:''}>${d}</span>`}
+ return `<div class="card nt" style="margin-bottom:18px;max-width:420px"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><button class="btn s g" type="button" data-act="bcm" data-id="-1">&lsaquo;</button><b>${c.toLocaleString('en-IN',{month:'long',year:'numeric'})}</b><button class="btn s g" type="button" data-act="bcm" data-id="1">&rsaquo;</button></div><div class="cal">${h}</div><p class="sub"><small>Highlighted dates have a batch. Hover to see the batch name.</small></p></div>`}
 AVW.Batches=async()=>{const[bt,st]=await Promise.all([Q(sb.from('batches').select('*').order('name')),Q(sb.from('students').select('batch_id,status'))]);
  return `<div class="card nt" style="margin-bottom:18px"><h3>Add batch</h3><form id="bf"><div class="grid"><div><label>Batch name</label><input id="b1" placeholder="Batch A - Morning" maxlength="60"></div><div><label>Timing</label><input id="b2" placeholder="7:00 AM to 8:00 AM" maxlength="60"></div><div><label>Batch date</label><input id="b3" type="date"></div></div><div class="err" id="berr"></div><button class="btn s" style="margin-top:12px">Add batch</button></form></div>`
- +tbl(['Batch','Date','Timing','Active members','Status',''],bt.map(b=>[esc(b.name),b.start_date?dt(b.start_date):'—',esc(b.timing||'—'),st.filter(s=>s.batch_id===b.id&&s.status==='active').length,b.active?pill('active'):pill('inactive'),`<button class="btn s g" data-act="btog" data-id="${b.id}" data-on="${b.active?1:0}">${b.active?'Deactivate':'Activate'}</button>`]))};
+ +bcal(bt)+tbl(['Batch','Date','Timing','Active members','Status',''],bt.map(b=>[esc(b.name),b.start_date?dt(b.start_date):'—',esc(b.timing||'—'),st.filter(s=>s.batch_id===b.id&&s.status==='active').length,b.active?pill('active'):pill('inactive'),`<button class="btn s g" data-act="btog" data-id="${b.id}" data-on="${b.active?1:0}">${b.active?'Deactivate':'Activate'}</button>`]))};
 AIN.Batches=()=>{$('#bf').onsubmit=async e=>{e.preventDefault();const n=$('#b1').value.trim();if(!n){$('#berr').textContent='Enter a batch name.';return}try{await Q(sb.from('batches').insert({name:n,timing:$('#b2').value.trim()||null,start_date:$('#b3').value||null}));toast('Batch added.');showA('Batches')}catch(x){$('#berr').textContent=x.message}}};
 
 AVW.Attendance=async()=>{const[st,bt,at]=await Promise.all([Q(sb.from('students').select('id,full_name,batch_id').eq('status','active').order('full_name')),Q(sb.from('batches').select('*').order('name')),Q(sb.from('attendance').select('*,students(full_name)').order('on_date',{ascending:false}).limit(60))]);window._ast=st;
@@ -709,6 +696,7 @@ async function adminAct(b){const a=b.dataset.act,id=b.dataset.id;
   if(a=='reject-adm'){if(!confirm('Reject this registration? The member will be marked inactive.'))return;if(id)await Q(sb.from('payments').update({status:'rejected'}).eq('id',id));await Q(sb.from('students').update({status:'inactive'}).eq('id',b.dataset.sid));toast('Registration rejected.');showA('Admissions');return}
   if(a=='verify'){b.disabled=true;await Q(sb.rpc('verify_payment',{pid:id}));toast('Payment Verified ✓');showA('Payments');return}
   if(a=='reject'){if(!confirm('Reject this payment?'))return;await Q(sb.from('payments').update({status:'rejected'}).eq('id',id));toast('Payment rejected.');showA('Payments');return}
+  if(a=='bcm'){window._bcm.setMonth(window._bcm.getMonth()+(+id));showA('Batches');return}
   if(a=='btog'){await Q(sb.from('batches').update({active:b.dataset.on!=='1'}).eq('id',id));showA('Batches');return}
   if(a=='bcancel'){if(!confirm('Cancel this booking? The slot will become free.'))return;await Q(sb.from('bookings').update({status:'cancelled'}).eq('id',id));showA('Bookings');return}
   if(a=='tog-l'){await Q(sb.from('session_links').update({active:b.dataset.on!=='1'}).eq('id',id));showA('Session Links');return}
