@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v46 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v47 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -112,7 +112,7 @@ input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid va
 @media(max-width:860px){.header-logo{max-width:165px;height:42px}.links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:#fff;padding:18px;border-bottom:1px solid var(--ln)}.links.on{display:flex}#burger{display:block}
 .hero,.split{grid-template-columns:1fr}section{padding:48px 5%}.app{grid-template-columns:1fr}.side{display:none}.main{padding-bottom:84px}
 .bn{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--ln);padding:8px 4% calc(8px + env(safe-area-inset-bottom,0px));justify-content:space-around;z-index:30}.bn a{font-size:.8rem;text-align:center;cursor:pointer}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.tick .tk-t{animation:tkmove var(--tkd,40s) linear infinite!important}}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#2b2224;color:#fff;padding:12px 20px;border-radius:14px;box-shadow:var(--sh);z-index:80;animation:pop .3s;max-width:90vw}
 .pill.r{background:#f8d7da;color:#8a1717}.amob{display:none;margin-bottom:14px}.side a{cursor:pointer}.bn a{cursor:pointer}
 .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px}.note{padding:12px 14px;border-radius:12px;background:#fdecc8;color:#7a5200;font-size:.92rem;margin:12px 0}
@@ -154,7 +154,7 @@ html body,html body *{font-weight:700!important}
 .tick{display:flex;align-items:stretch;background:linear-gradient(90deg,#8c0f1a,#a31621);color:#fff;border-bottom:3px solid #e8a317;overflow:hidden;position:relative;z-index:5}
 .tick .tk-l{flex:none;display:flex;align-items:center;gap:8px;padding:9px 16px;background:#5e0a13;color:#ffd27a;white-space:nowrap;box-shadow:6px 0 12px -4px #0006;z-index:2}
 .tick .tk-w{flex:1;overflow:hidden;display:flex;align-items:center}
-.tick .tk-t{display:inline-flex;white-space:nowrap;animation:tkmove 40s linear infinite;will-change:transform}
+.tick .tk-t{display:inline-flex;white-space:nowrap;animation:tkmove var(--tkd,40s) linear infinite;will-change:transform}
 .tick:hover .tk-t{animation-play-state:paused}
 .tick .tk-i{padding:9px 26px;display:inline-flex;gap:10px;align-items:center}.tick .tk-i b{color:#ffd27a}.tick .tk-i i{font-style:normal;color:#e8a317}
 @keyframes tkmove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -258,7 +258,9 @@ async function loadTicker(){const el=$('#tick');if(!el)return;try{const td=ymd(n
  if(!d.length){el.classList.add('hide');el.innerHTML='';return}
  const one=d.map(n=>`<span class="tk-i"><b>${esc(n.title)}</b>${n.body?' — '+esc(String(n.body).slice(0,90)):''}<i>✦</i></span>`).join('');
  const len=d.reduce((a,n)=>a+(n.title||'').length+(n.body||'').slice(0,90).length+14,0);
- el.innerHTML=`<div class="tk-l">📅 <span>Upcoming Events</span></div><div class="tk-w"><div class="tk-t" style="animation-duration:${Math.max(18,Math.round(len*.22))}s">${one}${one}</div></div>`;el.classList.remove('hide')}catch(e){el.classList.add('hide')}}
+ el.innerHTML=`<div class="tk-l">📅 <span>Upcoming Events</span></div><div class="tk-w"><div class="tk-t" style="animation-duration:${Math.max(18,Math.round(len*.22))}s">${one}${one}</div></div>`;el.classList.remove('hide');tkFit(el,one)}catch(e){el.classList.add('hide')}}
+// make the ticker loop seamlessly at a steady speed, however short the text is
+function tkFit(el,one){const w=el.querySelector('.tk-w'),t=el.querySelector('.tk-t');if(!w||!t)return;t.innerHTML=one;const w1=t.scrollWidth||1,k=Math.max(1,Math.ceil((w.clientWidth+60)/w1)),half=one.repeat(k);t.innerHTML=half+half;t.style.removeProperty('animation-duration');t.style.setProperty('--tkd',Math.max(12,Math.round(w1*k/85))+'s')}
 async function loadHits(){try{let bump=true;try{bump=!sessionStorage.getItem('hit_done');sessionStorage.setItem('hit_done','1')}catch(e){}
  const n=await Q(sb.rpc('hit_site',{bump}));if(n==null)return;$('#hn').innerHTML=String(n).padStart(5,'0').split('').map(c=>'<u>'+c+'</u>').join('');$('#hits').classList.remove('hide')}catch(e){}}
 
