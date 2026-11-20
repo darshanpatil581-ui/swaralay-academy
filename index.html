@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v74 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v75 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik</title>
 <link rel="preload" as="image" href="logo.jpeg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin><link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{--mr:#a31621;--mr2:#d64045;--bg:#f3e8d2;--card:#fdf1ee;--ink:#2b2224;--mut:#5f5557;--gd:#e8a317;--ln:#ecc5be;--sh:0 1px 1px rgba(163,22,33,.08),0 8px 16px -6px rgba(163,22,33,.15),0 28px 40px -20px rgba(163,22,33,.2);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -325,7 +325,7 @@ function swKeys(){
 // ----- taal (rhythm) -----
 const TAAL={
  Rupak:{n:7,v:[3,2,2],k:{0:'k',3:'t',5:'t'},b:['Tin','Tin','Na','Dhin','Na','Dhin','Na']},
- Bhajani:{n:12,v:[4,4,4],k:{0:'x',4:'k',8:'t'},b:['Dhin','Na','Dhin','Dhi','Na','Ti','Tin','Na','Tin','Ti','Na','Ti']},
+ Bhajani:{n:8,v:[4,4],k:{0:'x',4:'k'},b:[['Dhin'],['Na','Dhin'],[null,'Dhin'],['Na','Ti~'],['Dhin'],['Na','Tin'],[null,'Tin'],['Na','Ti~']]},
  Dadra:{n:6,v:[3,3],k:{0:'x',3:'k'},b:['Dha','Dhi','Na','Dha','Ti','Na']},
  Teental:{n:16,v:[4,4,4,4],k:{0:'x',4:'t',8:'k',12:'t'},b:['Dha','Dhin','Dhin','Dha','Dha','Dhin','Dhin','Dha','Dha','Tin','Tin','Ta','Ta','Dhin','Dhin','Dha']}};
 const TL={name:'Teental',bpm:90,click:false,run:false,beat:0,next:0,timer:null,q:[],raf:0,taps:[]};
@@ -333,7 +333,7 @@ function swDots(){const T=TAAL[TL.name];let h='',i=0;T.v.forEach(len=>{h+='<span
   const num=kd==='t'?(T.k[0]==='x'||T.k[0]==='k'?1:0)+Object.keys(T.k).filter(x=>T.k[x]==='t'&&+x<=i).length:'';
   h+=`<i class="${kd}" data-b="${i}">${kd==='x'?'X':kd==='k'?'0':num}</i>`}h+='</span>'});
  let c0=0;const bnd=new Set(T.v.map(l=>c0+=l));
- h+='<div class="swbl" style="flex:0 0 100%;text-align:center;margin-top:6px;font-weight:700;line-height:1.7">'+T.b.map((x,i)=>{const t=(Array.isArray(x)?x:[x]).map(y=>y||'–').join(' ');return(i&&bnd.has(i)?'<span style="opacity:.5"> | </span>':' ')+'<span data-b="'+i+'" style="display:inline-block;padding:0 3px;border-radius:5px">'+t+'</span>'}).join('')+'</div>';return h}
+ h+='<div class="swbl" style="flex:0 0 100%;text-align:center;margin-top:6px;font-weight:700;line-height:1.7">'+T.b.map((x,i)=>{const t=(Array.isArray(x)?x:[x]).map(y=>y?y.replace('~',''):'–').join(' ');return(i&&bnd.has(i)?'<span style="opacity:.5"> | </span>':' ')+'<span data-b="'+i+'" style="display:inline-block;padding:0 3px;border-radius:5px">'+t+'</span>'}).join('')+'</div>';return h}
 let TNB=null;
 const tNoise=a=>{if(!TNB){const n=Math.floor(a.sampleRate*.08),b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;TNB=b}return TNB};
 function tbolSynth(a,t,bol,kind,vol){
@@ -355,7 +355,7 @@ function tbol(a,t,bol,kind,vol){const k=({Dhi:'Dhit',Ka:'Ke'})[bol]||bol,arr=TBU
  if(arr&&arr.length){const sr=a.createBufferSource(),g=a.createGain();const ix=Math.min(TIX[k]||0,arr.length-1);sr.buffer=arr[ix];const f0=(TF0[k]||[])[ix];if(f0){let r=swHz(0)/f0;while(r>1.41)r/=2;while(r<.71)r*=2;sr.playbackRate.value=r}const on=sr.buffer._on||0,gv=(TGN[k]||.8)*(.55+.45*vol)*1.35,dur=(sr.buffer.duration-on)/(sr.playbackRate.value||1);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gv,t+.003);g.gain.setValueAtTime(gv,t+Math.max(.01,dur-.05));g.gain.linearRampToValueAtTime(0,t+dur);sr.connect(g);g.connect(SWM);sr.start(t,on);return}
  tbolSynth(a,t,bol,kind,vol)}
 function tlBeat(a,beat,t,spb){const T=TAAL[TL.name],kind=T.k[beat]||'n',vol={x:1,t:.85,n:.7,k:.55}[kind];
- let b=T.b[beat];if(!Array.isArray(b))b=[b];const sub=spb/b.length;b.forEach((bl,j)=>{if(bl)tbol(a,t+j*sub,bl,kind,vol)})}
+ let b=T.b[beat];if(!Array.isArray(b))b=[b];const sub=spb/b.length;b.forEach((bl,j)=>{if(bl){const g=/~$/.test(bl);tbol(a,t+j*sub,bl.replace('~',''),kind,g?vol*.3:vol)}})}
 function tlTick(){const a=SWAC;if(!a||!TL.run)return;const n=TAAL[TL.name].n;
  while(TL.next<a.currentTime+.3){const spb=60/TL.bpm;tlBeat(a,TL.beat,TL.next,spb);TL.q.push({t:TL.next,b:TL.beat});TL.next+=spb;TL.beat=(TL.beat+1)%n}}
 function tlDraw(){if(!TL.run)return;const a=SWAC;while(TL.q.length&&TL.q[0].t<=a.currentTime){const x=TL.q.shift();document.querySelectorAll('#swdots i').forEach(d=>d.classList.toggle('cur',+d.dataset.b===x.b));document.querySelectorAll('#swdots .swbl span[data-b]').forEach(d=>{const on=+d.dataset.b===x.b;d.style.background=on?'#e8a317':'';d.style.color=on?'#3a0a10':''})}TL.raf=requestAnimationFrame(tlDraw)}
