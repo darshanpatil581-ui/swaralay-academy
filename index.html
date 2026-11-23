@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v84 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v85 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
 <meta name="description" content="Learn Light Vocal and Semi-Classical music at Swaralay Music Academy, Nashik. Structured lessons, individual and group batches, online and offline classes.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://www.swaralaymusic.com/">
@@ -255,7 +255,7 @@ const tm=d=>new Date(d).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-dig
 const ymd=d=>{const z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())};
 const Q=async p=>{const{data,error}=await p;if(error)throw error;return data};
 const me=async()=>{const{data:{session}}=await sb.auth.getSession();return session?session.user:null};
-const myRole=async()=>{try{const u=await me();if(!u)return null;const d=await Q(sb.from('profiles').select('role').eq('id',u.id).maybeSingle());return d?d.role:null}catch(e){return null}};
+let _rl={};const myRole=async()=>{try{const u=await me();if(!u)return null;if(_rl.id===u.id&&_rl.r)return _rl.r;const d=await Q(sb.from('profiles').select('role').eq('id',u.id).maybeSingle()),r=d?d.role:null;if(r)_rl={id:u.id,r};return r}catch(e){return null}};
 function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),3400)}
 const pubUrl=p=>sb.storage.from('site-images').getPublicUrl(p).data.publicUrl;
 const okFile=f=>f&&/^image\/(png|jpeg)$/.test(f.type)&&f.size<=5242880;
@@ -531,7 +531,7 @@ function initJoin(){
    else{if(!r.data.session)throw new Error('Registration is not fully set up yet. Please contact the academy.');uid=r.data.user.id}
    await Q(sb.from('students').insert({user_id:uid,pin_hash:pinH,full_name:n,whatsapp:ph,instrument:ins||null,vocal:voc||null,class_format:$('#cf').value,track:/Group/.test(voc)?'Group':'Individual'}));
    trkEvent('generate_lead',{form_name:'join_registration'});$('#ok').classList.add('on');b.classList.add('hide');
-   await sb.auth.signOut();
+   (_rl={},await sb.auth.signOut());
   }catch(err){fe.textContent=/pin_hash|students_pin/i.test(err.message||'')?'This PIN is already used by another member. Please go back and choose a different 4-digit PIN.':/instrument|vocal|dob|pin_hash/i.test(err.message||'')?'Registration is being updated. Please contact the academy.':(err.message||'Something went wrong. Please try again.');b.disabled=false;b.textContent='Submit registration'}
  }}
 
@@ -540,7 +540,7 @@ function initPortal(){
  (async()=>{try{const u=await me();if(!u)return;const lg=$('#lg');if(!lg||!lg.parentNode)return;lg.classList.add('hide');const w=document.createElement('div');w.id='lgw';w.className='card nt';w.style.textAlign='center';w.innerHTML='<b>Opening your dashboard...</b>';lg.parentNode.insertBefore(w,lg);
   const back=()=>{w.remove();if($('#sd')&&$('#sd').classList.contains('hide'))lg.classList.remove('hide')};
   try{if(await isMember()&&!admFlag()){await loadStudent();w.remove();if($('#sd')&&$('#sd').classList.contains('hide'))lg.classList.remove('hide')}else back()}catch(e){back()}}catch(e){}})();
- const ok=async(er,sbtn)=>{try{if(!await loadStudent()){await sb.auth.signOut();MEMC=false;er.textContent='No member profile found for this mobile number.';return false}MEMC=true;LOG=true;setNav(true);return true}catch(x){er.textContent='Could not load your profile. Please try again.';return false}};
+ const ok=async(er,sbtn)=>{try{if(!await loadStudent()){(_rl={},await sb.auth.signOut());MEMC=false;er.textContent='No member profile found for this mobile number.';return false}MEMC=true;LOG=true;setNav(true);return true}catch(x){er.textContent='Could not load your profile. Please try again.';return false}};
  $('#sl2').onsubmit=async e=>{e.preventDefault();const pr=phoneRead('lp'),p=pr.val,er=$('#lerr');er.textContent='';
   if(!pr.ok){er.textContent=pr.msg;return}
   const{error}=await pwLogin(p,$('#lw').value);
@@ -581,7 +581,7 @@ async function loadStudent(){
  const mno=s.member_no?'SWL-'+String(s.member_no).padStart(4,'0'):(s.status==='pending'?'Issued after approval':'—');
  $('#lg').classList.add('hide');const ph=document.querySelector('.ph');if(ph)ph.textContent='My Dashboard';const sd=$('#sd');sd.classList.remove('hide');
  sd.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center;margin:0 0 12px"><div><h3 style="margin:0 0 8px">Welcome, ${esc(s.full_name)}</h3><div class="mid"><div><small>Member ID</small><b>${mno}</b></div></div></div><button class="btn s g" id="so">Log out</button></div>${banner}<div class="grid">${g}</div>`;
- $('#so').onclick=async()=>{await sb.auth.signOut();MEMC=false;MEMS=null;LOG=false;setNav(false);location.hash='#home';sd.classList.add('hide');$('#lg').classList.remove('hide');$('#lw').value=''};
+ $('#so').onclick=async()=>{(_rl={},await sb.auth.signOut());MEMC=false;MEMS=null;LOG=false;setNav(false);location.hash='#home';sd.classList.add('hide');$('#lg').classList.remove('hide');$('#lw').value=''};
  if(act&&s.track==='Individual')slotUI(s);
  return true}
 async function slotUI(s){
@@ -601,7 +601,7 @@ function initAlogin(){const msg=t=>{const m=$('#almsg');m.textContent=t;m.classL
    if(!sb)throw new Error('The login service could not load. Check your internet connection and refresh the page.');
    const{error}=await sb.auth.signInWithPassword({email:$('#ae').value.trim(),password:$('#ap').value});
    if(error)throw new Error(/invalid login credentials/i.test(error.message)?'Sign-in failed. Check your email/password and try again.':'Sign-in problem: '+error.message);
-   if(await myRole()!=='admin'){await sb.auth.signOut();throw new Error('Access denied. This account is not authorised as an academy administrator.')}
+   if(await myRole()!=='admin'){(_rl={},await sb.auth.signOut());throw new Error('Access denied. This account is not authorised as an academy administrator.')}
    await loadCfg();admFlag(1);location.hash='#admin';
   }catch(x){msg(x.message||'Sign-in failed. Please try again.')}
   finally{b.disabled=false;b.textContent='Sign in securely'}})}
@@ -954,7 +954,7 @@ async function render(){
  if(!sb&&h=='admin'){location.hash='#admin-login';return}
  if(!sb){$('#pv').innerHTML='<section><div class="card nt"><b>The site could not load its services.</b><p class="sub">Please check your internet connection and refresh.</p></div></section>';return}
  if(h!='admin'&&h!='admin-login')admFlag(0);
- if(h=='admin'){const ok=admFlag();if(!ok||await myRole()!=='admin'){if(!ok){try{await sb.auth.signOut()}catch(e){}}if(t===RT)location.hash='#admin-login';return}if(t!==RT)return;await loadCfg();if(t!==RT)return;$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+adminShell()+'</div>');scrollTo(0,0);showA(curA);return}
+ if(h=='admin'){const ok=admFlag();let _ld=null;if(ok&&Object.keys(CFG).length)_ld=loadCfg();if(!ok||await myRole()!=='admin'){if(!ok){try{(_rl={},await sb.auth.signOut())}catch(e){}}if(t===RT)location.hash='#admin-login';return}if(t!==RT)return;if(!_ld)await loadCfg();if(t!==RT)return;$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+adminShell()+'</div>');scrollTo(0,0);showA(curA);return}
  if(h!='admin'){const L=await isMember();if(t!==RT)return;LOG=L;setNav(L);/* site gate paused for now */}
  let CP=null;const ext=!BI.includes(h);if(ext){CP=await getPage(h);if(t!==RT)return}
  const v={join,portal}[h];
