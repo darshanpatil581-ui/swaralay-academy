@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v88 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v89 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
 <meta name="description" content="Learn Light Vocal and Semi-Classical music at Swaralay Music Academy, Nashik. Structured lessons, individual and group batches, online and offline classes.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://www.swaralaymusic.com/">
@@ -231,6 +231,7 @@ html{scroll-padding-top:80px}@media(max-width:600px){.tick{font-size:.82rem;line
 // ===== Supabase (public browser-safe keys only; never use the service_role key) =====
 const SB_URL='https://obzkxkuuwilnsdwxaddh.supabase.co',SB_KEY='sb_publishable_rD_52j8wq074fDC2IvuYKw_wwbsWH9V';
 const sb=window.supabase?supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:'swaralay-auth'}}):null;
+const _boot=(async()=>{try{if(!sb)return;const{data:{session}}=await sb.auth.getSession();if(session&&sessionStorage.getItem('adm_ok')!=='1')await sb.auth.signOut({scope:'local'})}catch(e){}})();
 // Students log in with their mobile number. Behind the scenes it maps to this login address.
 // Supabase rejects made-up email domains, so each mobile number maps to a login address on a real mail domain.
 // No email is ever sent (keep "Confirm email" OFF in Supabase). Old accounts on the previous address still work.
@@ -570,7 +571,7 @@ async function loadStudent(){
  if(act){
   g+=`<div class="card nt"><b>Passbook</b><p>Monthly fee: ${+s.monthly_fee>0?inr(s.monthly_fee):'not set yet'}<br>Balance: <b style="color:${due?'#b3261e':'#14532d'}">${due?inr(due)+' due':'₹0 Clear'}</b></p></div>`;
   g+=payBox('monthly fee',+s.monthly_fee);
-  {const pr=att.filter(a=>a.status==='Present').length,ab=att.filter(a=>a.status==='Absent').length,pct=(pr+ab)?Math.round(pr*100/(pr+ab))+'%':'—';g+=`<div class="card nt" style="grid-column:1/-1"><b>Attendance: ${pct}</b><p class="sub" style="margin:4px 0 8px">${new Date().toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</p><div style="max-width:420px">${calHTML(att)}</div><small>Green present · red absent · amber holiday</small></div>`;g+=GCAL}
+  {const pr=att.filter(a=>a.status==='Present').length,ab=att.filter(a=>a.status==='Absent').length,pct=(pr+ab)?Math.round(pr*100/(pr+ab))+'%':'—';g+=`<div class="card nt" style="grid-column:1/-1"><b>Attendance: ${pct}</b><p class="sub" style="margin:4px 0 8px">${new Date().toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</p><div style="max-width:420px">${calHTML(att)}</div><small>Green present · red absent · amber holiday</small></div>`;g+=GCAL+'<div class="card nt" id="mmd" style="grid-column:1/-1;display:none"></div>'}
   if(s.track==='Individual')g+=`<div class="card nt" style="grid-column:1/-1"><b>Book a 1-hour slot</b><div id="bk"></div><p><b>My bookings</b></p><div id="mb"></div></div>`;
  }
  g+=`<div class="card nt" style="grid-column:1/-1"><b>Payment history</b>${pays.length?`<div class="tw"><table><tr><th>Date</th><th>Amount</th><th>Type</th><th>Status</th></tr>${pays.map(p=>`<tr><td>${dt(p.submitted_at)}</td><td>${inr(p.amount)}</td><td>${esc(p.type)}</td><td>${pill(p.status)}</td></tr>`).join('')}</table></div>`:'<p class="sub">No payments yet.</p>'}</div>`;
@@ -584,7 +585,9 @@ async function loadStudent(){
  sd.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center;margin:0 0 12px"><div><h3 style="margin:0 0 8px">Welcome, ${esc(s.full_name)}</h3><div class="mid"><div><small>Member ID</small><b>${mno}</b></div></div></div><button class="btn s g" id="so">Log out</button></div>${banner}<div class="grid">${g}</div>`;
  $('#so').onclick=async()=>{(_rl={},await sb.auth.signOut());MEMC=false;MEMS=null;LOG=false;setNav(false);location.hash='#home';sd.classList.add('hide');$('#lg').classList.remove('hide');$('#lw').value=''};
  if(act&&s.track==='Individual')slotUI(s);
+ if(act)memMedia();
  return true}
+async function memMedia(){try{if(!$('#mmd'))return;const L=await Q(sb.from('member_media').select('*').order('created_at',{ascending:false}));if(!L.length||!$('#mmd'))return;const{data}=await sb.storage.from('member-media').createSignedUrls(L.map(m=>m.path),21600),U={};(data||[]).forEach(d=>{if(d.signedUrl)U[d.path]=d.signedUrl});const ok=L.filter(m=>U[m.path]);if(!ok.length)return;const b=$('#mmd');b.innerHTML='<b>Audio and Video</b>'+ok.map(m=>`<div style="margin-top:14px"><div><b>${esc(m.title)}</b></div>${m.kind==='audio'?`<audio controls preload="none" controlsList="nodownload" src="${esc(U[m.path])}" style="width:100%"></audio>`:`<video controls preload="metadata" controlsList="nodownload" playsinline src="${esc(U[m.path])}" style="width:100%;max-height:420px;border-radius:12px;background:#000"></video>`}</div>`).join('');b.style.display=''}catch(e){}}
 async function slotUI(s){
  const days=[];for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()+i);days.push(d)}
  $('#bk').innerHTML=`<label>Choose a date</label><select id="bd">${days.map(d=>`<option value="${ymd(d)}">${d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})}</option>`).join('')}</select><div class="row" id="bs" style="margin-top:12px"></div><p id="bm" style="color:#14532d;min-height:1.5em"></p>`;
@@ -948,8 +951,19 @@ function aboutFig(){const a=CFG.about_photo;if(a==='__none__')return '';const c=
  const r=$('#abr');if(r)r.onclick=async()=>{try{await set('');toast('Original photo restored.');showA('Settings')}catch(x){$('#aber').textContent='Could not save: '+(x.message||x)}}}}
 
 {const _im=AIN.Members;AIN.Members=()=>{_im();const f=()=>{$('#mtb').innerHTML=mList(window._st,window._bt,$('#mfs').value,$('#mfb').value)};$('#mfs').onchange=f;$('#mfb').onchange=f}}
+{const _mg=AVW.Gallery;AVW.Gallery=async()=>{const[h,mm]=await Promise.all([_mg(),Q(sb.from('member_media').select('*').order('created_at',{ascending:false})).catch(()=>null)]);
+ const card=mm===null?`<div class="card nt"><h3>Member audio and video</h3><p class="sub">Run swaralay_update_v22_member_media.sql once in Supabase, then reload this page.</p></div><div style="height:20px"></div>`:`<div class="card nt"><h3>Member audio and video</h3><p class="sub"><small>Only logged-in members can see these, and only inside their own dashboard. Audio up to 50 MB, video up to 500 MB.</small></p><form id="mmf"><div class="row" style="align-items:flex-end"><div><label>Type</label><select id="mmk"><option value="audio">Audio</option><option value="video">Video</option></select></div><div style="flex:1"><label>Title</label><input id="mmt" maxlength="100" placeholder="e.g. Raag Yaman practice"></div></div><label>File</label><input id="mmfl" type="file" accept="audio/*,video/*"><div class="err" id="mmer"></div><button class="btn s" style="margin-top:12px" id="mmb">Upload</button></form>${mm.length?tbl(['Type','Title','Added',''],mm.map(m=>[esc(m.kind),esc(m.title),dt(m.created_at),`<button type="button" class="btn s g" data-mmdel="${m.id}" data-p="${esc(m.path)}">Delete</button>`])):'<p class="sub">Nothing uploaded yet.</p>'}</div><div style="height:20px"></div>`;
+ return card+h}}
+{const _mi=AIN.Gallery;AIN.Gallery=()=>{_mi();const f=$('#mmf');if(!f)return;
+ f.onsubmit=async e=>{e.preventDefault();const k=$('#mmk').value,t=$('#mmt').value.trim(),fl=$('#mmfl').files[0],er=$('#mmer'),b=$('#mmb');er.textContent='';
+  if(!t){er.textContent='Enter a title.';return}if(!fl){er.textContent='Choose a file.';return}
+  if(!(fl.type||'').startsWith(k+'/')){er.textContent='This file is not '+k+'. Check the Type.';return}
+  if(fl.size>(k==='audio'?50:500)*1048576){er.textContent='File is too large. Audio up to 50 MB, video up to 500 MB.';return}
+  b.disabled=true;b.textContent='Uploading... keep this page open';
+  try{const ext=((fl.name.split('.').pop()||k).toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,5))||k,path=k+'/'+Date.now()+'.'+ext;const{error}=await sb.storage.from('member-media').upload(path,fl,{contentType:fl.type});if(error)throw error;await Q(sb.from('member_media').insert({kind:k,title:t,path}));toast('Uploaded.');showA('Gallery')}catch(x){er.textContent='Upload failed: '+(x.message||x);b.disabled=false;b.textContent='Upload'}};
+ document.querySelectorAll('[data-mmdel]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this file for all members?'))return;try{await sb.storage.from('member-media').remove([b.dataset.p]);await Q(sb.from('member_media').delete().eq('id',b.dataset.mmdel));toast('Deleted.');showA('Gallery')}catch(x){toast('Could not delete: '+(x.message||x))}})}}
 async function render(){
- const t=++RT,h=getH();if(h=='admin'||h=='admin-login')seoApply(h);
+ await _boot;const t=++RT,h=getH();if(h=='admin'||h=='admin-login')seoApply(h);
  $('#links').classList.remove('on');const ad=$('#adm');if(ad)ad.remove();document.body.classList.toggle('admin-on',h=='admin'||h=='admin-login');$('#pub').classList.toggle('hide',h=='admin'||h=='admin-login');
  if(h=='admin-login'){$('#pub').insertAdjacentHTML('afterend','<div id="adm">'+alogin()+'</div>');scrollTo(0,0);initAlogin();return}
  if(!sb&&h=='admin'){location.hash='#admin-login';return}
