@@ -1,6 +1,6 @@
 <!DOCTYPE html><!-- Tabla stroke samples: from "naad" by Oormi Creations (https://github.com/oormicreations/naad)
 The MIT License (MIT). Copyright (c) Oormi Creations and Contributors. All rights reserved.
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v99 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. --><!-- build: admin-login-v100 --><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Swaralay Music Academy, Nashik | Light Vocal &amp; Semi-Classical Music Classes</title>
 <meta name="description" content="Learn Light Vocal and Semi-Classical music at Swaralay Music Academy, Nashik. Structured lessons, individual and group batches, online and offline classes.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://www.swaralaymusic.com/">
@@ -311,10 +311,10 @@ const gl=x=>x==='Student Recitals'?'Member Recitals':x;
 
 // ===== Swar keys, scales, taal and volume (all inside the home figure) =====
 // 8 white keys = Sa Re Ga Ma Pa Dha Ni Sa(upper), 4 black keys = the other swars of the chosen scale. Lowercase = komal.
-const SWNM=['Sa','re','Re','ga','Ga','Ma','Ma','Pa','dha','Dha','ni','Ni','Sa'];
+const SWNM=['Sa','re','Re','ga','Ga','Ma','Ma','Pa','dha','Dha','ni','Ni','Sa'];SWNM[6]='Ma#';
 const SWRT=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-const SWMAJ={w:[0,2,4,5,7,9,11,12],b:[[1,0],[3,1],[8,4],[10,5]]};   // black: [semitone, boundary after white #]
-const SWMIN={w:[0,2,3,5,7,8,10,12],b:[[1,0],[4,2],[9,5],[11,6]]};
+const SWMAJ={w:[0,2,4,5,7,9,11,12],b:[[1,0],[3,1],[6,3],[8,4],[10,5]]};   // black: [semitone, boundary after white #]
+const SWMIN={w:[0,2,3,5,7,8,10,12],b:[[1,0],[4,2],[6,3],[9,5],[11,6]]};
 const SW={root:0,minor:false,vol:70,mute:false};
 const swL=()=>SW.minor?SWMIN:SWMAJ;
 const swSemi=i=>{const L=swL();return i<8?L.w[i]:L.b[i-8][0]};
@@ -327,7 +327,7 @@ function swKeys(){
  L.w.forEach((s,j)=>{const a1=A0-j*W-.4,a2=A0-(j+1)*W+.4,am=(a1+a2)/2,lp=P(R2-4.6,am);
   wh+=`<g class="swk w" data-i="${j}" role="button" aria-label="${SWNM[s]}"><path class="kb" d="${sec(R1,R2,a1,a2)}"/><text x="${lp[0]}" y="${(+lp[1]+1.1).toFixed(2)}">${SWNM[s]}</text>${j==7?`<circle cx="${lp[0]}" cy="${(+lp[1]-2.2).toFixed(2)}" r=".55"/>`:''}</g>`});
  L.b.forEach((b,q)=>{const ab=A0-(b[1]+1)*W,a1=ab+6,a2=ab-6,lp=P(rb-3.4,ab);
-  bl+=`<g class="swk b" data-i="${8+q}" role="button" aria-label="${SWNM[b[0]]}"><path class="kb" d="${sec(R1,rb,a1,a2)}"/><text x="${lp[0]}" y="${(+lp[1]+.8).toFixed(2)}">${SWNM[b[0]]}</text></g>`});
+  bl+=`<g class="swk b" data-i="${8+q}" role="button" aria-label="${b[0]===6?'Tivra Ma':SWNM[b[0]]}"><path class="kb" d="${sec(R1,rb,a1,a2)}"/><text x="${lp[0]}" y="${(+lp[1]+.8).toFixed(2)}">${SWNM[b[0]]}</text></g>`});
  const arc=(r,a1,a2)=>`M${P(r,a1)}A${r} ${r} 0 0 0 ${P(r,a2)}`;
  return `<svg class="swa" id="swa" viewBox="0 0 100 100" aria-label="Swar keys: tap to play"><defs><linearGradient id="swW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf5"/><stop offset="1" stop-color="#f3dcc4"/></linearGradient><linearGradient id="swB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b1520"/><stop offset="1" stop-color="#1c050b"/></linearGradient></defs><path class="plate glow" d="${arc(R1-1.6,A0+4,A0-SP-4)}"/><path class="plate glow" d="${arc(R2+1.6,A0+4,A0-SP-4)}"/>${wh}${bl}<rect class="swbd" x="34.5" y="65.4" width="31" height="6.2" rx="3.1"/><text class="swbt" x="50" y="69.6">Sa = ${SWRT[SW.root]} ${SW.minor?'Minor':'Major'}</text></svg>`}
 
